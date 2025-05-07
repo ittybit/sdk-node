@@ -1,6 +1,6 @@
 # Ittybit TypeScript Library
 
-[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Ffern-demo%2Fittybit-typescript-sdk)
+[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Fittybit%2Fsdk-node)
 [![npm shield](https://img.shields.io/npm/v/ittybit)](https://www.npmjs.com/package/ittybit)
 
 The Ittybit TypeScript library provides convenient access to the Ittybit API from TypeScript.
@@ -22,7 +22,7 @@ Instantiate and use the client with the following:
 ```typescript
 import { IttybitClient } from "ittybit";
 
-const client = new IttybitClient({ token: "YOUR_TOKEN", acceptVersion: "YOUR_ACCEPT_VERSION" });
+const client = new IttybitClient({ token: "YOUR_TOKEN" });
 await client.automations.create();
 ```
 

@@ -15,9 +15,7 @@ export declare namespace IttybitClient {
         environment?: core.Supplier<environments.IttybitEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token?: core.Supplier<core.BearerToken | undefined>;
-        /** Override the Accept-Version header */
-        acceptVersion: core.Supplier<string>;
+        token: core.Supplier<core.BearerToken>;
         fetcher?: core.FetchFunction;
     }
 
@@ -28,8 +26,6 @@ export declare namespace IttybitClient {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
-        /** Override the Accept-Version header */
-        acceptVersion?: string;
         /** Additional headers to include in the request. */
         headers?: Record<string, string>;
     }

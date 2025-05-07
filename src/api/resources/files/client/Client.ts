@@ -13,9 +13,7 @@ export declare namespace Files {
         environment?: core.Supplier<environments.IttybitEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token?: core.Supplier<core.BearerToken | undefined>;
-        /** Override the Accept-Version header */
-        acceptVersion: core.Supplier<string>;
+        token: core.Supplier<core.BearerToken>;
         fetcher?: core.FetchFunction;
     }
 
@@ -26,8 +24,6 @@ export declare namespace Files {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
-        /** Override the Accept-Version header */
-        acceptVersion?: string;
         /** Additional headers to include in the request. */
         headers?: Record<string, string>;
     }
@@ -81,11 +77,10 @@ export class Files {
             method: "GET",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
-                "Accept-Version": await core.Supplier.get(this._options.acceptVersion),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "ittybit",
-                "X-Fern-SDK-Version": "0.0.1",
-                "User-Agent": "ittybit/0.0.1",
+                "X-Fern-SDK-Version": "0.7.0",
+                "User-Agent": "ittybit/0.7.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -172,11 +167,10 @@ export class Files {
             method: "POST",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
-                "Accept-Version": await core.Supplier.get(this._options.acceptVersion),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "ittybit",
-                "X-Fern-SDK-Version": "0.0.1",
-                "User-Agent": "ittybit/0.0.1",
+                "X-Fern-SDK-Version": "0.7.0",
+                "User-Agent": "ittybit/0.7.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -255,11 +249,10 @@ export class Files {
             method: "GET",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
-                "Accept-Version": await core.Supplier.get(this._options.acceptVersion),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "ittybit",
-                "X-Fern-SDK-Version": "0.0.1",
-                "User-Agent": "ittybit/0.0.1",
+                "X-Fern-SDK-Version": "0.7.0",
+                "User-Agent": "ittybit/0.7.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -338,11 +331,10 @@ export class Files {
             method: "DELETE",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
-                "Accept-Version": await core.Supplier.get(this._options.acceptVersion),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "ittybit",
-                "X-Fern-SDK-Version": "0.0.1",
-                "User-Agent": "ittybit/0.0.1",
+                "X-Fern-SDK-Version": "0.7.0",
+                "User-Agent": "ittybit/0.7.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -440,11 +432,10 @@ export class Files {
             method: "PATCH",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
-                "Accept-Version": await core.Supplier.get(this._options.acceptVersion),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "ittybit",
-                "X-Fern-SDK-Version": "0.0.1",
-                "User-Agent": "ittybit/0.0.1",
+                "X-Fern-SDK-Version": "0.7.0",
+                "User-Agent": "ittybit/0.7.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -496,12 +487,7 @@ export class Files {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string | undefined> {
-        const bearer = await core.Supplier.get(this._options.token);
-        if (bearer != null) {
-            return `Bearer ${bearer}`;
-        }
-
-        return undefined;
+    protected async _getAuthorizationHeader(): Promise<string> {
+        return `Bearer ${await core.Supplier.get(this._options.token)}`;
     }
 }
