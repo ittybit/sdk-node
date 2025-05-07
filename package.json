@@ -1,5 +1,5 @@
 {
-    "name": "ittybit",
+    "name": "@ittybit/sdk",
     "version": "0.7.0",
     "private": false,
     "repository": "https://github.com/ittybit/sdk-node",
