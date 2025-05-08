@@ -1,14 +1,14 @@
 # Ittybit TypeScript Library
 
 [![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Fittybit%2Fsdk-node)
-[![npm shield](https://img.shields.io/npm/v/ittybit)](https://www.npmjs.com/package/ittybit)
+[![npm shield](https://img.shields.io/npm/v/@ittybit/sdk)](https://www.npmjs.com/package/@ittybit/sdk)
 
 The Ittybit TypeScript library provides convenient access to the Ittybit API from TypeScript.
 
 ## Installation
 
 ```sh
-npm i -s ittybit
+npm i -s @ittybit/sdk
 ```
 
 ## Reference
@@ -20,7 +20,7 @@ A full reference for this library is available [here](./reference.md).
 Instantiate and use the client with the following:
 
 ```typescript
-import { IttybitClient } from "ittybit";
+import { IttybitClient } from "@ittybit/sdk";
 
 const client = new IttybitClient({ token: "YOUR_TOKEN" });
 await client.automations.create();
@@ -32,7 +32,7 @@ The SDK exports all request and response types as TypeScript interfaces. Simply 
 following namespace:
 
 ```typescript
-import { Ittybit } from "ittybit";
+import { Ittybit } from "@ittybit/sdk";
 
 const request: Ittybit.AutomationsUpdateRequest = {
     ...
@@ -45,7 +45,7 @@ When the API returns a non-success status code (4xx or 5xx response), a subclass
 will be thrown.
 
 ```typescript
-import { IttybitError } from "ittybit";
+import { IttybitError } from "@ittybit/sdk";
 
 try {
     await client.automations.create(...);
@@ -145,7 +145,7 @@ The SDK provides a way for you to customize the underlying HTTP client / Fetch f
 unsupported environment, this provides a way for you to break glass and ensure the SDK works.
 
 ```typescript
-import { IttybitClient } from "ittybit";
+import { IttybitClient } from "@ittybit/sdk";
 
 const client = new IttybitClient({
     ...

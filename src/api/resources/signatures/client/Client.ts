@@ -74,9 +74,9 @@ export class Signatures {
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "ittybit",
-                "X-Fern-SDK-Version": "0.7.0",
-                "User-Agent": "ittybit/0.7.0",
+                "X-Fern-SDK-Name": "@ittybit/sdk",
+                "X-Fern-SDK-Version": "0.7.1",
+                "User-Agent": "@ittybit/sdk/0.7.1",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
