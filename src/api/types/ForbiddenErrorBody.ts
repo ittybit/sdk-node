@@ -5,7 +5,6 @@
 import * as Ittybit from "../index";
 
 export interface ForbiddenErrorBody {
-    meta?: Ittybit.Meta;
-    /** Error message */
-    error?: string;
+    meta?: Ittybit.ForbiddenErrorBodyMeta;
+    error?: Ittybit.ForbiddenErrorBodyError;
 }

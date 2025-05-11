@@ -3,5 +3,16 @@
  */
 
 export interface FilesGetResponseLinks {
+    /** The absolute URL of the current request, potentially including query parameters. */
     self?: string;
+    /** URL for the next page of results. */
+    next?: string;
+    /** URL for the previous page of results. */
+    prev?: string;
+    /** URL for the parent resource. */
+    parent?: string;
+    /** URL for the first page of results. */
+    first?: string;
+    /** URL for the last page of results. */
+    last?: string;
 }

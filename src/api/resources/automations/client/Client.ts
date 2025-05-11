@@ -67,8 +67,8 @@ export class Automations {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -127,13 +127,15 @@ export class Automations {
      * @example
      *     await client.automations.create()
      */
-    public create(requestOptions?: Automations.RequestOptions): core.HttpResponsePromise<Ittybit.AutomationResponse> {
+    public create(
+        requestOptions?: Automations.RequestOptions,
+    ): core.HttpResponsePromise<Ittybit.AutomationsCreateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(requestOptions));
     }
 
     private async __create(
         requestOptions?: Automations.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.AutomationResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.AutomationsCreateResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -146,8 +148,8 @@ export class Automations {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -159,7 +161,7 @@ export class Automations {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.AutomationResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.AutomationsCreateResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -212,14 +214,14 @@ export class Automations {
     public get(
         id: string,
         requestOptions?: Automations.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.AutomationResponse> {
+    ): core.HttpResponsePromise<Ittybit.AutomationsGetResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(id, requestOptions));
     }
 
     private async __get(
         id: string,
         requestOptions?: Automations.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.AutomationResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.AutomationsGetResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -232,8 +234,8 @@ export class Automations {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -245,7 +247,7 @@ export class Automations {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.AutomationResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.AutomationsGetResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -296,15 +298,18 @@ export class Automations {
      *
      * @example
      *     await client.automations.update("id", {
-     *         name: "Transcode Uploaded Videos (Updated)",
-     *         trigger: [{
-     *                 "event": "media.ready",
-     *                 "conditions": [
-     *                     {
-     *                         "prop": "media.kind",
-     *                         "value": "image"
-     *                     }
-     *                 ]
+     *         name: "Updated Transcoder Example",
+     *         trigger: {
+     *             event: "upload.completed",
+     *             conditions: [{
+     *                     prop: "file.type",
+     *                     value: "image/*"
+     *                 }]
+     *         },
+     *         workflow: [{
+     *                 kind: "image",
+     *                 label: "archive_image",
+     *                 format: "webp"
      *             }]
      *     })
      */
@@ -312,7 +317,7 @@ export class Automations {
         id: string,
         request: Ittybit.AutomationsUpdateRequest,
         requestOptions?: Automations.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.AutomationResponse> {
+    ): core.HttpResponsePromise<Ittybit.AutomationsUpdateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__update(id, request, requestOptions));
     }
 
@@ -320,7 +325,7 @@ export class Automations {
         id: string,
         request: Ittybit.AutomationsUpdateRequest,
         requestOptions?: Automations.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.AutomationResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.AutomationsUpdateResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -333,8 +338,8 @@ export class Automations {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -347,7 +352,7 @@ export class Automations {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.AutomationResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.AutomationsUpdateResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -419,8 +424,8 @@ export class Automations {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,

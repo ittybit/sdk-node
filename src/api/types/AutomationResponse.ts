@@ -4,9 +4,8 @@
 
 import * as Ittybit from "../index";
 
-/**
- * Standard wrapper for single Automation responses.
- */
-export interface AutomationResponse extends Ittybit.ApiResponseBase {
-    data?: Ittybit.Automation;
+export interface AutomationResponse {
+    meta?: Ittybit.AutomationResponseMeta;
+    data?: Ittybit.AutomationResponseData;
+    links?: Ittybit.AutomationResponseLinks;
 }

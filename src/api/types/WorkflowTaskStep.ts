@@ -4,9 +4,6 @@
 
 import * as Ittybit from "../index";
 
-/**
- * A single task step definition within an automation workflow.
- */
 export interface WorkflowTaskStep {
     /** The type of operation the task performs. */
     kind: Ittybit.WorkflowTaskStepKind;

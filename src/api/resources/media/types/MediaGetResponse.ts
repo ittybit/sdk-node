@@ -6,6 +6,6 @@ import * as Ittybit from "../../../index";
 
 export interface MediaGetResponse {
     meta?: Ittybit.MediaGetResponseMeta;
-    data?: Ittybit.Media;
+    data?: Ittybit.MediaGetResponseData;
     links?: Ittybit.MediaGetResponseLinks;
 }

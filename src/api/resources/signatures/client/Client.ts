@@ -55,14 +55,14 @@ export class Signatures {
     public create(
         request: Ittybit.SignaturesCreateRequest,
         requestOptions?: Signatures.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.SignatureResponse> {
+    ): core.HttpResponsePromise<Ittybit.SignaturesCreateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
         request: Ittybit.SignaturesCreateRequest,
         requestOptions?: Signatures.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.SignatureResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.SignaturesCreateResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -75,8 +75,8 @@ export class Signatures {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -89,7 +89,7 @@ export class Signatures {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.SignatureResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.SignaturesCreateResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {

@@ -4,9 +4,6 @@
 
 import * as Ittybit from "../index";
 
-/**
- * Represents a media item, which can contain multiple source files and associated data.
- */
 export interface Media {
     /** Unique identifier for the media item. */
     id: string;
@@ -31,7 +28,7 @@ export interface Media {
     /** Combined file size of all sources in bytes. */
     filesize?: number;
     /** Array of source files associated with this media item. */
-    sources: Ittybit.MediaSource[];
+    sources: Ittybit.MediaSourcesItem[];
     /** Text tracks (e.g., subtitles, captions). */
     tracks?: Record<string, unknown>[];
     /** AI-generated analysis data. */

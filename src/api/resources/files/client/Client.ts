@@ -79,8 +79,8 @@ export class Files {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -135,6 +135,7 @@ export class Files {
      * @throws {@link Ittybit.BadRequestError}
      * @throws {@link Ittybit.UnauthorizedError}
      * @throws {@link Ittybit.ForbiddenError}
+     * @throws {@link Ittybit.NotFoundError}
      *
      * @example
      *     await client.files.createFromUrl({
@@ -149,14 +150,14 @@ export class Files {
     public createFromUrl(
         request: Ittybit.FilesCreateFromUrlRequest,
         requestOptions?: Files.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.FileResponse> {
+    ): core.HttpResponsePromise<Ittybit.FilesCreateFromUrlResponse> {
         return core.HttpResponsePromise.fromPromise(this.__createFromUrl(request, requestOptions));
     }
 
     private async __createFromUrl(
         request: Ittybit.FilesCreateFromUrlRequest,
         requestOptions?: Files.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.FileResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.FilesCreateFromUrlResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -169,8 +170,8 @@ export class Files {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -183,7 +184,7 @@ export class Files {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.FileResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.FilesCreateFromUrlResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -194,6 +195,8 @@ export class Files {
                     throw new Ittybit.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
                     throw new Ittybit.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new Ittybit.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.IttybitError({
                         statusCode: _response.error.statusCode,
@@ -251,8 +254,8 @@ export class Files {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -333,8 +336,8 @@ export class Files {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -413,7 +416,7 @@ export class Files {
         id: string,
         request: Ittybit.FilesUpdateMetadataRequest = {},
         requestOptions?: Files.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.FileResponse> {
+    ): core.HttpResponsePromise<Ittybit.FilesUpdateMetadataResponse> {
         return core.HttpResponsePromise.fromPromise(this.__updateMetadata(id, request, requestOptions));
     }
 
@@ -421,7 +424,7 @@ export class Files {
         id: string,
         request: Ittybit.FilesUpdateMetadataRequest = {},
         requestOptions?: Files.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.FileResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.FilesUpdateMetadataResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -434,8 +437,8 @@ export class Files {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -448,7 +451,7 @@ export class Files {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.FileResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.FilesUpdateMetadataResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {

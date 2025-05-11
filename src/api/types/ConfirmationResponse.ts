@@ -4,9 +4,8 @@
 
 import * as Ittybit from "../index";
 
-/**
- * Standard wrapper for confirmation message responses.
- */
-export interface ConfirmationResponse extends Ittybit.ApiResponseBase {
+export interface ConfirmationResponse {
+    meta?: Ittybit.ConfirmationResponseMeta;
     data?: Ittybit.ConfirmationResponseData;
+    links?: Ittybit.ConfirmationResponseLinks;
 }

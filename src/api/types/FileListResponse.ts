@@ -4,9 +4,8 @@
 
 import * as Ittybit from "../index";
 
-/**
- * Standard wrapper for File list responses.
- */
-export interface FileListResponse extends Ittybit.ApiResponseBase {
-    data?: Ittybit.File_[];
+export interface FileListResponse {
+    meta?: Ittybit.FileListResponseMeta;
+    data?: Ittybit.FileListResponseDataItem[];
+    links?: Ittybit.FileListResponseLinks;
 }

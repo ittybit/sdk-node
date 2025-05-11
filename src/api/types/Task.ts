@@ -4,9 +4,6 @@
 
 import * as Ittybit from "../index";
 
-/**
- * Represents a processing task or a step in a workflow.
- */
 export interface Task {
     /** Unique identifier for the task. */
     id: string;
@@ -35,8 +32,8 @@ export interface Task {
     /** ID of the parent task if this is part of a workflow. */
     parent_id?: string;
     /** Array of nested task objects representing the steps within this workflow task. */
-    workflow?: Ittybit.Task[];
+    workflow?: Ittybit.TaskWorkflowItem[];
     /** Array representing subsequent tasks (e.g., in an automation). Structure may vary. */
-    next?: Ittybit.Task[];
+    next?: Ittybit.TaskNextItem[];
     results?: Ittybit.TaskResults;
 }

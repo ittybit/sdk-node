@@ -4,9 +4,8 @@
 
 import * as Ittybit from "../index";
 
-/**
- * Standard wrapper for single File responses.
- */
-export interface FileResponse extends Ittybit.ApiResponseBase {
-    data?: Ittybit.File_;
+export interface FileResponse {
+    meta?: Ittybit.FileResponseMeta;
+    data?: Ittybit.FileResponseData;
+    links?: Ittybit.FileResponseLinks;
 }

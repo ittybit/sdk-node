@@ -4,9 +4,8 @@
 
 import * as Ittybit from "../index";
 
-/**
- * Standard wrapper for Signature responses.
- */
-export interface SignatureResponse extends Ittybit.ApiResponseBase {
-    data?: Ittybit.Signature;
+export interface SignatureResponse {
+    meta?: Ittybit.SignatureResponseMeta;
+    data?: Ittybit.SignatureResponseData;
+    links?: Ittybit.SignatureResponseLinks;
 }

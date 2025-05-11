@@ -4,7 +4,8 @@
 
 import * as Ittybit from "../../../index";
 
-export interface FilesListResponse extends Ittybit.ApiResponseBase {
-    /** List of file objects */
-    data?: unknown[];
+export interface FilesListResponse {
+    meta?: Ittybit.FilesListResponseMeta;
+    data?: Ittybit.FilesListResponseDataItem[];
+    links?: Ittybit.FilesListResponseLinks;
 }

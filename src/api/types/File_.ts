@@ -4,9 +4,6 @@
 
 import * as Ittybit from "../index";
 
-/**
- * Represents a file stored in the system, including its metadata and source information.
- */
 export interface File_ {
     /** Unique identifier for the file. */
     id: string;

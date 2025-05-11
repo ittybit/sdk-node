@@ -4,9 +4,8 @@
 
 import * as Ittybit from "../index";
 
-/**
- * Standard wrapper for single Media responses.
- */
-export interface MediaResponse extends Ittybit.ApiResponseBase {
-    data?: Ittybit.Media;
+export interface MediaResponse {
+    meta?: Ittybit.MediaResponseMeta;
+    data?: Ittybit.MediaResponseData;
+    links?: Ittybit.MediaResponseLinks;
 }

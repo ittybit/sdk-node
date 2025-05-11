@@ -4,9 +4,6 @@
 
 import * as Ittybit from "../index";
 
-/**
- * Represents an automated workflow triggered by specific events.
- */
 export interface Automation {
     /** Unique identifier for the automation */
     id: string;
@@ -14,10 +11,12 @@ export interface Automation {
     name: string;
     /** Optional description for the automation */
     description?: string;
+    /** User-defined key-value metadata for the automation. */
+    metadata?: Record<string, unknown>;
     /** The event and conditions that trigger this automation. */
     trigger: Ittybit.AutomationTrigger;
     /** The sequence of tasks to be executed when the automation is triggered. The structure of each task object varies depending on its 'kind'. */
-    workflow: Ittybit.WorkflowTaskStep[];
+    workflow: Ittybit.AutomationWorkflowItem[];
     /** Current status of the automation */
     status: Ittybit.AutomationStatus;
     /** Timestamp when the automation was created */

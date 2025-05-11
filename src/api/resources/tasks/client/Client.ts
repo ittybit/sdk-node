@@ -50,14 +50,14 @@ export class Tasks {
     public listFiltered(
         request: Ittybit.TasksListFilteredRequest = {},
         requestOptions?: Tasks.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.TaskListResponse> {
+    ): core.HttpResponsePromise<Ittybit.TasksListFilteredResponse> {
         return core.HttpResponsePromise.fromPromise(this.__listFiltered(request, requestOptions));
     }
 
     private async __listFiltered(
         request: Ittybit.TasksListFilteredRequest = {},
         requestOptions?: Tasks.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.TaskListResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.TasksListFilteredResponse>> {
         const { page, limit, status, kind } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (page != null) {
@@ -88,8 +88,8 @@ export class Tasks {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -102,7 +102,7 @@ export class Tasks {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.TaskListResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.TasksListFilteredResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -162,14 +162,14 @@ export class Tasks {
     public create(
         request: Ittybit.TasksCreateRequest,
         requestOptions?: Tasks.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.TaskResponse> {
+    ): core.HttpResponsePromise<Ittybit.TasksCreateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
         request: Ittybit.TasksCreateRequest,
         requestOptions?: Tasks.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.TaskResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.TasksCreateResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -182,8 +182,8 @@ export class Tasks {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -196,7 +196,7 @@ export class Tasks {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.TaskResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.TasksCreateResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -236,6 +236,84 @@ export class Tasks {
     }
 
     /**
+     * Retrieves available task kinds and their configuration options.
+     *
+     * @param {Tasks.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Ittybit.UnauthorizedError}
+     * @throws {@link Ittybit.ForbiddenError}
+     *
+     * @example
+     *     await client.tasks.getTaskConfig()
+     */
+    public getTaskConfig(requestOptions?: Tasks.RequestOptions): core.HttpResponsePromise<Record<string, unknown>> {
+        return core.HttpResponsePromise.fromPromise(this.__getTaskConfig(requestOptions));
+    }
+
+    private async __getTaskConfig(
+        requestOptions?: Tasks.RequestOptions,
+    ): Promise<core.WithRawResponse<Record<string, unknown>>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.IttybitEnvironment.Default,
+                "tasks/config",
+            ),
+            method: "GET",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@ittybit/sdk",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Record<string, unknown>, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 401:
+                    throw new Ittybit.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new Ittybit.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.IttybitError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.IttybitError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.IttybitTimeoutError("Timeout exceeded when calling GET /tasks/config.");
+            case "unknown":
+                throw new errors.IttybitError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
      * Retrieves the details of a specific task by its ID.
      *
      * @param {string} id - The ID of the task to retrieve.
@@ -248,14 +326,14 @@ export class Tasks {
      * @example
      *     await client.tasks.get("id")
      */
-    public get(id: string, requestOptions?: Tasks.RequestOptions): core.HttpResponsePromise<Ittybit.TaskResponse> {
+    public get(id: string, requestOptions?: Tasks.RequestOptions): core.HttpResponsePromise<Ittybit.TasksGetResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(id, requestOptions));
     }
 
     private async __get(
         id: string,
         requestOptions?: Tasks.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.TaskResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.TasksGetResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -268,8 +346,8 @@ export class Tasks {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -281,7 +359,7 @@ export class Tasks {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.TaskResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.TasksGetResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {

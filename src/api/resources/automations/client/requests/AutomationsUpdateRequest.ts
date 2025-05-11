@@ -7,22 +7,26 @@ import * as Ittybit from "../../../../index";
 /**
  * @example
  *     {
- *         name: "Transcode Uploaded Videos (Updated)",
- *         trigger: [{
- *                 "event": "media.ready",
- *                 "conditions": [
- *                     {
- *                         "prop": "media.kind",
- *                         "value": "image"
- *                     }
- *                 ]
+ *         name: "Updated Transcoder Example",
+ *         trigger: {
+ *             event: "upload.completed",
+ *             conditions: [{
+ *                     prop: "file.type",
+ *                     value: "image/*"
+ *                 }]
+ *         },
+ *         workflow: [{
+ *                 kind: "image",
+ *                 label: "archive_image",
+ *                 format: "webp"
  *             }]
  *     }
  */
 export interface AutomationsUpdateRequest {
     name: string;
     description?: string;
-    trigger: Record<string, unknown>[];
+    /** Defines the trigger event and conditions. To clear/remove a trigger, provide null. To update, provide the new trigger object. */
+    trigger?: Ittybit.AutomationsUpdateRequestTrigger;
     /** The updated sequence of tasks for the automation. */
-    workflow?: Ittybit.WorkflowTaskStep[];
+    workflow?: Ittybit.AutomationsUpdateRequestWorkflowItem[];
 }

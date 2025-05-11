@@ -4,11 +4,8 @@
 
 import * as Ittybit from "../index";
 
-/**
- * Standard wrapper for single Task responses.
- */
 export interface TaskResponse {
-    meta?: Ittybit.Meta;
-    data?: Ittybit.Task;
-    links?: Ittybit.Links;
+    meta?: Ittybit.TaskResponseMeta;
+    data?: Ittybit.TaskResponseData;
+    links?: Ittybit.TaskResponseLinks;
 }

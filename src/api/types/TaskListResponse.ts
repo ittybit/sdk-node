@@ -4,9 +4,8 @@
 
 import * as Ittybit from "../index";
 
-/**
- * Standard wrapper for Task list responses.
- */
-export interface TaskListResponse extends Ittybit.ApiResponseBase {
-    data?: Ittybit.Task[];
+export interface TaskListResponse {
+    meta?: Ittybit.TaskListResponseMeta;
+    data?: Ittybit.TaskListResponseDataItem[];
+    links?: Ittybit.TaskListResponseLinks;
 }

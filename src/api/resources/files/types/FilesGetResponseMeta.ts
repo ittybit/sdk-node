@@ -3,13 +3,16 @@
  */
 
 export interface FilesGetResponseMeta {
-    id?: string;
-    method?: string;
-    url?: string;
-    version?: string;
-    status?: number;
-    org_id?: string;
-    project_id?: string;
-    object?: string;
-    created?: string;
+    /** Request ID */
+    request_id?: string;
+    /** Type of the primary data object in the response (e.g., list, object) */
+    type?: string;
+    /** Number of items per page. */
+    limit?: number;
+    /** Total number of items matching the query. */
+    total?: number;
+    /** Current page number. */
+    page?: number;
+    /** Total number of pages. */
+    pages?: number;
 }

@@ -4,7 +4,8 @@
 
 import * as Ittybit from "../../../index";
 
-export interface AutomationsListResponse extends Ittybit.ApiResponseBase {
-    /** List of automation objects */
-    data?: unknown[];
+export interface AutomationsListResponse {
+    meta?: Ittybit.AutomationsListResponseMeta;
+    data?: Ittybit.AutomationsListResponseDataItem[];
+    links?: Ittybit.AutomationsListResponseLinks;
 }

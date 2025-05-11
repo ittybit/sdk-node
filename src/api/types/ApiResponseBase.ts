@@ -4,10 +4,7 @@
 
 import * as Ittybit from "../index";
 
-/**
- * Base structure for standard API responses.
- */
 export interface ApiResponseBase {
-    meta?: Ittybit.Meta;
-    links?: Ittybit.Links;
+    meta?: Ittybit.ApiResponseBaseMeta;
+    links?: Ittybit.ApiResponseBaseLinks;
 }

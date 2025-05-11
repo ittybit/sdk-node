@@ -4,7 +4,8 @@
 
 import * as Ittybit from "../../../index";
 
-export interface FilesDeleteResponse extends Ittybit.ApiResponseBase {
-    /** Contains a confirmation message */
+export interface FilesDeleteResponse {
     data?: Ittybit.FilesDeleteResponseData;
+    meta?: Ittybit.FilesDeleteResponseMeta;
+    links?: Ittybit.FilesDeleteResponseLinks;
 }

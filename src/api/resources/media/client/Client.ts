@@ -80,8 +80,8 @@ export class Media {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -162,14 +162,14 @@ export class Media {
     public create(
         request: Ittybit.MediaCreateRequest = {},
         requestOptions?: Media.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.MediaResponse> {
+    ): core.HttpResponsePromise<Ittybit.MediaCreateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
         request: Ittybit.MediaCreateRequest = {},
         requestOptions?: Media.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.MediaResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.MediaCreateResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -182,8 +182,8 @@ export class Media {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -196,7 +196,7 @@ export class Media {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.MediaResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.MediaCreateResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -266,8 +266,8 @@ export class Media {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -332,14 +332,14 @@ export class Media {
     public delete(
         id: string,
         requestOptions?: Media.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.ConfirmationResponse> {
+    ): core.HttpResponsePromise<Ittybit.MediaDeleteResponse> {
         return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
     }
 
     private async __delete(
         id: string,
         requestOptions?: Media.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.ConfirmationResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.MediaDeleteResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -352,8 +352,8 @@ export class Media {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.1",
-                "User-Agent": "@ittybit/sdk/0.7.1",
+                "X-Fern-SDK-Version": "0.7.2",
+                "User-Agent": "@ittybit/sdk/0.7.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -365,7 +365,7 @@ export class Media {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.ConfirmationResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.MediaDeleteResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
