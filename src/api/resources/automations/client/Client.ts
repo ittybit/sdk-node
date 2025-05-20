@@ -14,6 +14,8 @@ export declare namespace Automations {
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
         token: core.Supplier<core.BearerToken>;
+        /** Override the ACCEPT_VERSION header */
+        version?: core.Supplier<string | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -24,6 +26,8 @@ export declare namespace Automations {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
+        /** Override the ACCEPT_VERSION header */
+        version?: string | undefined;
         /** Additional headers to include in the request. */
         headers?: Record<string, string>;
     }
@@ -46,15 +50,13 @@ export class Automations {
      * @example
      *     await client.automations.list()
      */
-    public list(
-        requestOptions?: Automations.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.AutomationsListResponse> {
+    public list(requestOptions?: Automations.RequestOptions): core.HttpResponsePromise<Ittybit.AutomationListResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(requestOptions));
     }
 
     private async __list(
         requestOptions?: Automations.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.AutomationsListResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.AutomationListResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -65,10 +67,14 @@ export class Automations {
             method: "GET",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? await core.Supplier.get(this._options.version)
+                        : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.2",
-                "User-Agent": "@ittybit/sdk/0.7.2",
+                "X-Fern-SDK-Version": "0.7.4",
+                "User-Agent": "@ittybit/sdk/0.7.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -80,15 +86,21 @@ export class Automations {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.AutomationsListResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.AutomationListResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new Ittybit.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.UnauthorizedError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Ittybit.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.ForbiddenError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.IttybitError({
                         statusCode: _response.error.statusCode,
@@ -127,15 +139,13 @@ export class Automations {
      * @example
      *     await client.automations.create()
      */
-    public create(
-        requestOptions?: Automations.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.AutomationsCreateResponse> {
+    public create(requestOptions?: Automations.RequestOptions): core.HttpResponsePromise<Ittybit.AutomationResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(requestOptions));
     }
 
     private async __create(
         requestOptions?: Automations.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.AutomationsCreateResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.AutomationResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -146,10 +156,14 @@ export class Automations {
             method: "POST",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? await core.Supplier.get(this._options.version)
+                        : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.2",
-                "User-Agent": "@ittybit/sdk/0.7.2",
+                "X-Fern-SDK-Version": "0.7.4",
+                "User-Agent": "@ittybit/sdk/0.7.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -161,17 +175,26 @@ export class Automations {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.AutomationsCreateResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.AutomationResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Ittybit.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.BadRequestError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new Ittybit.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.UnauthorizedError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Ittybit.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.ForbiddenError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.IttybitError({
                         statusCode: _response.error.statusCode,
@@ -201,7 +224,7 @@ export class Automations {
     /**
      * Retrieves a specific automation by its ID
      *
-     * @param {string} id - The automation ID
+     * @param {string} id
      * @param {Automations.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Ittybit.UnauthorizedError}
@@ -214,14 +237,14 @@ export class Automations {
     public get(
         id: string,
         requestOptions?: Automations.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.AutomationsGetResponse> {
+    ): core.HttpResponsePromise<Ittybit.AutomationResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(id, requestOptions));
     }
 
     private async __get(
         id: string,
         requestOptions?: Automations.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.AutomationsGetResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.AutomationResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -232,10 +255,14 @@ export class Automations {
             method: "GET",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? await core.Supplier.get(this._options.version)
+                        : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.2",
-                "User-Agent": "@ittybit/sdk/0.7.2",
+                "X-Fern-SDK-Version": "0.7.4",
+                "User-Agent": "@ittybit/sdk/0.7.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -247,17 +274,26 @@ export class Automations {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.AutomationsGetResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.AutomationResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new Ittybit.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.UnauthorizedError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Ittybit.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.ForbiddenError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 404:
-                    throw new Ittybit.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.NotFoundError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.IttybitError({
                         statusCode: _response.error.statusCode,
@@ -287,7 +323,7 @@ export class Automations {
     /**
      * Updates an existing automation by its ID
      *
-     * @param {string} id - The ID of the automation to update.
+     * @param {string} id
      * @param {Ittybit.AutomationsUpdateRequest} request
      * @param {Automations.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -317,7 +353,7 @@ export class Automations {
         id: string,
         request: Ittybit.AutomationsUpdateRequest,
         requestOptions?: Automations.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.AutomationsUpdateResponse> {
+    ): core.HttpResponsePromise<Ittybit.AutomationResponse> {
         return core.HttpResponsePromise.fromPromise(this.__update(id, request, requestOptions));
     }
 
@@ -325,7 +361,7 @@ export class Automations {
         id: string,
         request: Ittybit.AutomationsUpdateRequest,
         requestOptions?: Automations.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.AutomationsUpdateResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.AutomationResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -336,10 +372,14 @@ export class Automations {
             method: "PUT",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? await core.Supplier.get(this._options.version)
+                        : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.2",
-                "User-Agent": "@ittybit/sdk/0.7.2",
+                "X-Fern-SDK-Version": "0.7.4",
+                "User-Agent": "@ittybit/sdk/0.7.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -352,19 +392,31 @@ export class Automations {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.AutomationsUpdateResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.AutomationResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Ittybit.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.BadRequestError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new Ittybit.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.UnauthorizedError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Ittybit.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.ForbiddenError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 404:
-                    throw new Ittybit.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.NotFoundError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.IttybitError({
                         statusCode: _response.error.statusCode,
@@ -394,7 +446,7 @@ export class Automations {
     /**
      * Deletes an automation by its ID
      *
-     * @param {string} id - The automation ID
+     * @param {string} id
      * @param {Automations.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Ittybit.UnauthorizedError}
@@ -422,10 +474,14 @@ export class Automations {
             method: "DELETE",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? await core.Supplier.get(this._options.version)
+                        : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.2",
-                "User-Agent": "@ittybit/sdk/0.7.2",
+                "X-Fern-SDK-Version": "0.7.4",
+                "User-Agent": "@ittybit/sdk/0.7.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -443,11 +499,20 @@ export class Automations {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new Ittybit.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.UnauthorizedError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Ittybit.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.ForbiddenError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 404:
-                    throw new Ittybit.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.NotFoundError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.IttybitError({
                         statusCode: _response.error.statusCode,

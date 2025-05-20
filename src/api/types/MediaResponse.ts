@@ -5,7 +5,7 @@
 import * as Ittybit from "../index";
 
 export interface MediaResponse {
-    meta?: Ittybit.MediaResponseMeta;
-    data?: Ittybit.MediaResponseData;
-    links?: Ittybit.MediaResponseLinks;
+    meta?: Ittybit.Meta | undefined;
+    data?: Ittybit.Media;
+    links?: Ittybit.Links;
 }

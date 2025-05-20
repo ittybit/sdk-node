@@ -3,10 +3,11 @@
  */
 
 import * as errors from "../../errors/index";
+import * as Ittybit from "../index";
 import * as core from "../../core";
 
 export class NotFoundError extends errors.IttybitError {
-    constructor(body?: unknown, rawResponse?: core.RawResponse) {
+    constructor(body: Ittybit.ErrorResponse, rawResponse?: core.RawResponse) {
         super({
             message: "NotFoundError",
             statusCode: 404,

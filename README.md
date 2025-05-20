@@ -22,7 +22,7 @@ Instantiate and use the client with the following:
 ```typescript
 import { IttybitClient } from "@ittybit/sdk";
 
-const client = new IttybitClient({ token: "YOUR_TOKEN" });
+const client = new IttybitClient({ token: "YOUR_TOKEN", version: "YOUR_VERSION" });
 await client.automations.create();
 ```
 

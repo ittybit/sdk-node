@@ -16,7 +16,7 @@ export interface Automation {
     /** The event and conditions that trigger this automation. */
     trigger: Ittybit.AutomationTrigger;
     /** The sequence of tasks to be executed when the automation is triggered. The structure of each task object varies depending on its 'kind'. */
-    workflow: Ittybit.AutomationWorkflowItem[];
+    workflow: Ittybit.WorkflowTaskStep[];
     /** Current status of the automation */
     status: Ittybit.AutomationStatus;
     /** Timestamp when the automation was created */

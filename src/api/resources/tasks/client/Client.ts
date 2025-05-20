@@ -14,6 +14,8 @@ export declare namespace Tasks {
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
         token: core.Supplier<core.BearerToken>;
+        /** Override the ACCEPT_VERSION header */
+        version?: core.Supplier<string | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -24,6 +26,8 @@ export declare namespace Tasks {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
+        /** Override the ACCEPT_VERSION header */
+        version?: string | undefined;
         /** Additional headers to include in the request. */
         headers?: Record<string, string>;
     }
@@ -38,32 +42,28 @@ export class Tasks {
     /**
      * Retrieves a list of tasks for the project, optionally filtered by status or kind.
      *
-     * @param {Ittybit.TasksListFilteredRequest} request
+     * @param {Ittybit.TasksListRequest} request
      * @param {Tasks.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Ittybit.UnauthorizedError}
      * @throws {@link Ittybit.ForbiddenError}
      *
      * @example
-     *     await client.tasks.listFiltered()
+     *     await client.tasks.list()
      */
-    public listFiltered(
-        request: Ittybit.TasksListFilteredRequest = {},
+    public list(
+        request: Ittybit.TasksListRequest = {},
         requestOptions?: Tasks.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.TasksListFilteredResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__listFiltered(request, requestOptions));
+    ): core.HttpResponsePromise<Ittybit.TaskListResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
-    private async __listFiltered(
-        request: Ittybit.TasksListFilteredRequest = {},
+    private async __list(
+        request: Ittybit.TasksListRequest = {},
         requestOptions?: Tasks.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.TasksListFilteredResponse>> {
-        const { page, limit, status, kind } = request;
+    ): Promise<core.WithRawResponse<Ittybit.TaskListResponse>> {
+        const { limit, status, kind } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (page != null) {
-            _queryParams["page"] = page.toString();
-        }
-
         if (limit != null) {
             _queryParams["limit"] = limit.toString();
         }
@@ -86,10 +86,14 @@ export class Tasks {
             method: "GET",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? await core.Supplier.get(this._options.version)
+                        : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.2",
-                "User-Agent": "@ittybit/sdk/0.7.2",
+                "X-Fern-SDK-Version": "0.7.4",
+                "User-Agent": "@ittybit/sdk/0.7.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -102,15 +106,21 @@ export class Tasks {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.TasksListFilteredResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.TaskListResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new Ittybit.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.UnauthorizedError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Ittybit.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.ForbiddenError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.IttybitError({
                         statusCode: _response.error.statusCode,
@@ -158,18 +168,28 @@ export class Tasks {
      *             }
      *         }
      *     })
+     *
+     * @example
+     *     await client.tasks.create({
+     *         kind: "ingest",
+     *         url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+     *         filename: "bunny-1280x720.mp4",
+     *         folder: "examples/cartoons",
+     *         width: 1280,
+     *         height: 720
+     *     })
      */
     public create(
         request: Ittybit.TasksCreateRequest,
         requestOptions?: Tasks.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.TasksCreateResponse> {
+    ): core.HttpResponsePromise<Ittybit.TaskResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
         request: Ittybit.TasksCreateRequest,
         requestOptions?: Tasks.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.TasksCreateResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.TaskResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -180,10 +200,14 @@ export class Tasks {
             method: "POST",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? await core.Supplier.get(this._options.version)
+                        : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.2",
-                "User-Agent": "@ittybit/sdk/0.7.2",
+                "X-Fern-SDK-Version": "0.7.4",
+                "User-Agent": "@ittybit/sdk/0.7.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -196,19 +220,31 @@ export class Tasks {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.TasksCreateResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.TaskResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Ittybit.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.BadRequestError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new Ittybit.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.UnauthorizedError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Ittybit.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.ForbiddenError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 404:
-                    throw new Ittybit.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.NotFoundError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.IttybitError({
                         statusCode: _response.error.statusCode,
@@ -258,15 +294,19 @@ export class Tasks {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.IttybitEnvironment.Default,
-                "tasks/config",
+                "tasks-config",
             ),
             method: "GET",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? await core.Supplier.get(this._options.version)
+                        : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.2",
-                "User-Agent": "@ittybit/sdk/0.7.2",
+                "X-Fern-SDK-Version": "0.7.4",
+                "User-Agent": "@ittybit/sdk/0.7.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -284,9 +324,15 @@ export class Tasks {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new Ittybit.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.UnauthorizedError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Ittybit.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.ForbiddenError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.IttybitError({
                         statusCode: _response.error.statusCode,
@@ -304,7 +350,7 @@ export class Tasks {
                     rawResponse: _response.rawResponse,
                 });
             case "timeout":
-                throw new errors.IttybitTimeoutError("Timeout exceeded when calling GET /tasks/config.");
+                throw new errors.IttybitTimeoutError("Timeout exceeded when calling GET /tasks-config.");
             case "unknown":
                 throw new errors.IttybitError({
                     message: _response.error.errorMessage,
@@ -316,7 +362,7 @@ export class Tasks {
     /**
      * Retrieves the details of a specific task by its ID.
      *
-     * @param {string} id - The ID of the task to retrieve.
+     * @param {string} id
      * @param {Tasks.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Ittybit.UnauthorizedError}
@@ -326,14 +372,14 @@ export class Tasks {
      * @example
      *     await client.tasks.get("id")
      */
-    public get(id: string, requestOptions?: Tasks.RequestOptions): core.HttpResponsePromise<Ittybit.TasksGetResponse> {
+    public get(id: string, requestOptions?: Tasks.RequestOptions): core.HttpResponsePromise<Ittybit.TaskResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(id, requestOptions));
     }
 
     private async __get(
         id: string,
         requestOptions?: Tasks.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.TasksGetResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.TaskResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -344,10 +390,14 @@ export class Tasks {
             method: "GET",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? await core.Supplier.get(this._options.version)
+                        : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.2",
-                "User-Agent": "@ittybit/sdk/0.7.2",
+                "X-Fern-SDK-Version": "0.7.4",
+                "User-Agent": "@ittybit/sdk/0.7.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -359,17 +409,26 @@ export class Tasks {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.TasksGetResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.TaskResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new Ittybit.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.UnauthorizedError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Ittybit.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.ForbiddenError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 404:
-                    throw new Ittybit.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.NotFoundError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.IttybitError({
                         statusCode: _response.error.statusCode,

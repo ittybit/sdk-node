@@ -14,6 +14,8 @@ export declare namespace Media {
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
         token: core.Supplier<core.BearerToken>;
+        /** Override the ACCEPT_VERSION header */
+        version?: core.Supplier<string | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -24,6 +26,8 @@ export declare namespace Media {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
+        /** Override the ACCEPT_VERSION header */
+        version?: string | undefined;
         /** Additional headers to include in the request. */
         headers?: Record<string, string>;
     }
@@ -58,12 +62,8 @@ export class Media {
         request: Ittybit.MediaListRequest = {},
         requestOptions?: Media.RequestOptions,
     ): Promise<core.WithRawResponse<Ittybit.MediaListResponse>> {
-        const { page, limit } = request;
+        const { limit } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (page != null) {
-            _queryParams["page"] = page.toString();
-        }
-
         if (limit != null) {
             _queryParams["limit"] = limit.toString();
         }
@@ -78,10 +78,14 @@ export class Media {
             method: "GET",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? await core.Supplier.get(this._options.version)
+                        : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.2",
-                "User-Agent": "@ittybit/sdk/0.7.2",
+                "X-Fern-SDK-Version": "0.7.4",
+                "User-Agent": "@ittybit/sdk/0.7.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -100,9 +104,15 @@ export class Media {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new Ittybit.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.UnauthorizedError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Ittybit.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.ForbiddenError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.IttybitError({
                         statusCode: _response.error.statusCode,
@@ -141,35 +151,25 @@ export class Media {
      *
      * @example
      *     await client.media.create({
-     *         url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-     *         folder: "examples/movies",
-     *         filename: "escapes.mp4",
+     *         url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+     *         folder: "examples/cartoons",
+     *         filename: "bunny.mp4",
      *         metadata: {
-     *             "genre": "Animation",
-     *             "rating": "G"
+     *             "credit": "gtv-videos-bucket"
      *         }
-     *     })
-     *
-     * @example
-     *     await client.media.create({
-     *         title: "Placeholder for User Upload",
-     *         metadata: {
-     *             "user_id": "user_789"
-     *         },
-     *         empty: true
      *     })
      */
     public create(
         request: Ittybit.MediaCreateRequest = {},
         requestOptions?: Media.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.MediaCreateResponse> {
+    ): core.HttpResponsePromise<Ittybit.MediaResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
         request: Ittybit.MediaCreateRequest = {},
         requestOptions?: Media.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.MediaCreateResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.MediaResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -180,10 +180,14 @@ export class Media {
             method: "POST",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? await core.Supplier.get(this._options.version)
+                        : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.2",
-                "User-Agent": "@ittybit/sdk/0.7.2",
+                "X-Fern-SDK-Version": "0.7.4",
+                "User-Agent": "@ittybit/sdk/0.7.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -196,17 +200,26 @@ export class Media {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.MediaCreateResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.MediaResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Ittybit.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.BadRequestError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new Ittybit.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.UnauthorizedError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Ittybit.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.ForbiddenError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.IttybitError({
                         statusCode: _response.error.statusCode,
@@ -236,7 +249,7 @@ export class Media {
     /**
      * Retrieves a specific media item by its ID
      *
-     * @param {string} id - The media ID
+     * @param {string} id
      * @param {Media.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Ittybit.UnauthorizedError}
@@ -246,14 +259,14 @@ export class Media {
      * @example
      *     await client.media.get("id")
      */
-    public get(id: string, requestOptions?: Media.RequestOptions): core.HttpResponsePromise<Ittybit.MediaGetResponse> {
+    public get(id: string, requestOptions?: Media.RequestOptions): core.HttpResponsePromise<Ittybit.MediaResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(id, requestOptions));
     }
 
     private async __get(
         id: string,
         requestOptions?: Media.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.MediaGetResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.MediaResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -264,10 +277,14 @@ export class Media {
             method: "GET",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? await core.Supplier.get(this._options.version)
+                        : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.2",
-                "User-Agent": "@ittybit/sdk/0.7.2",
+                "X-Fern-SDK-Version": "0.7.4",
+                "User-Agent": "@ittybit/sdk/0.7.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -279,17 +296,26 @@ export class Media {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.MediaGetResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.MediaResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new Ittybit.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.UnauthorizedError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Ittybit.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.ForbiddenError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 404:
-                    throw new Ittybit.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.NotFoundError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.IttybitError({
                         statusCode: _response.error.statusCode,
@@ -319,7 +345,7 @@ export class Media {
     /**
      * Deletes a specific media item by its ID
      *
-     * @param {string} id - The media ID
+     * @param {string} id
      * @param {Media.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Ittybit.UnauthorizedError}
@@ -332,14 +358,14 @@ export class Media {
     public delete(
         id: string,
         requestOptions?: Media.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.MediaDeleteResponse> {
+    ): core.HttpResponsePromise<Ittybit.ConfirmationResponse> {
         return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
     }
 
     private async __delete(
         id: string,
         requestOptions?: Media.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.MediaDeleteResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.ConfirmationResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -350,10 +376,14 @@ export class Media {
             method: "DELETE",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? await core.Supplier.get(this._options.version)
+                        : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.2",
-                "User-Agent": "@ittybit/sdk/0.7.2",
+                "X-Fern-SDK-Version": "0.7.4",
+                "User-Agent": "@ittybit/sdk/0.7.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -365,17 +395,26 @@ export class Media {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.MediaDeleteResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.ConfirmationResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new Ittybit.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.UnauthorizedError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Ittybit.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.ForbiddenError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 404:
-                    throw new Ittybit.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.NotFoundError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.IttybitError({
                         statusCode: _response.error.statusCode,
@@ -394,6 +433,115 @@ export class Media {
                 });
             case "timeout":
                 throw new errors.IttybitTimeoutError("Timeout exceeded when calling DELETE /media/{id}.");
+            case "unknown":
+                throw new errors.IttybitError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Updates specific fields of a media item by its ID. Only the fields provided in the request body will be updated.
+     *
+     * @param {string} id
+     * @param {Ittybit.MediaUpdateRequest} request
+     * @param {Media.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Ittybit.BadRequestError}
+     * @throws {@link Ittybit.UnauthorizedError}
+     * @throws {@link Ittybit.ForbiddenError}
+     * @throws {@link Ittybit.NotFoundError}
+     *
+     * @example
+     *     await client.media.update("id")
+     */
+    public update(
+        id: string,
+        request: Ittybit.MediaUpdateRequest = {},
+        requestOptions?: Media.RequestOptions,
+    ): core.HttpResponsePromise<Ittybit.MediaResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__update(id, request, requestOptions));
+    }
+
+    private async __update(
+        id: string,
+        request: Ittybit.MediaUpdateRequest = {},
+        requestOptions?: Media.RequestOptions,
+    ): Promise<core.WithRawResponse<Ittybit.MediaResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.IttybitEnvironment.Default,
+                `media/${encodeURIComponent(id)}`,
+            ),
+            method: "PATCH",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? await core.Supplier.get(this._options.version)
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@ittybit/sdk",
+                "X-Fern-SDK-Version": "0.7.4",
+                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            body: request,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Ittybit.MediaResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Ittybit.BadRequestError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
+                case 401:
+                    throw new Ittybit.UnauthorizedError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Ittybit.ForbiddenError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
+                case 404:
+                    throw new Ittybit.NotFoundError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.IttybitError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.IttybitError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.IttybitTimeoutError("Timeout exceeded when calling PATCH /media/{id}.");
             case "unknown":
                 throw new errors.IttybitError({
                     message: _response.error.errorMessage,

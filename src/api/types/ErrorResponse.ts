@@ -4,8 +4,7 @@
 
 import * as Ittybit from "../index";
 
-export interface SignatureResponse {
+export interface ErrorResponse {
     meta?: Ittybit.Meta | undefined;
-    data?: Ittybit.Signature;
-    links?: Ittybit.Links;
+    error?: Ittybit.Error_;
 }

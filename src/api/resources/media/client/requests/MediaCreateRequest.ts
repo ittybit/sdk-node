@@ -5,22 +5,12 @@
 /**
  * @example
  *     {
- *         url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
- *         folder: "examples/movies",
- *         filename: "escapes.mp4",
+ *         url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+ *         folder: "examples/cartoons",
+ *         filename: "bunny.mp4",
  *         metadata: {
- *             "genre": "Animation",
- *             "rating": "G"
+ *             "credit": "gtv-videos-bucket"
  *         }
- *     }
- *
- * @example
- *     {
- *         title: "Placeholder for User Upload",
- *         metadata: {
- *             "user_id": "user_789"
- *         },
- *         empty: true
  *     }
  */
 export interface MediaCreateRequest {

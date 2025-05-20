@@ -32,8 +32,8 @@ export interface Task {
     /** ID of the parent task if this is part of a workflow. */
     parent_id?: string;
     /** Array of nested task objects representing the steps within this workflow task. */
-    workflow?: Ittybit.TaskWorkflowItem[];
+    workflow?: Ittybit.Task[];
     /** Array representing subsequent tasks (e.g., in an automation). Structure may vary. */
-    next?: Ittybit.TaskNextItem[];
+    next?: Ittybit.Task[];
     results?: Ittybit.TaskResults;
 }

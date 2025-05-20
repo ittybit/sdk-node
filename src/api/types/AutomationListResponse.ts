@@ -5,7 +5,7 @@
 import * as Ittybit from "../index";
 
 export interface AutomationListResponse {
-    meta?: Ittybit.AutomationListResponseMeta;
-    data?: Ittybit.AutomationListResponseDataItem[];
-    links?: Ittybit.AutomationListResponseLinks;
+    meta?: Ittybit.MetaList;
+    data?: Ittybit.Automation[];
+    links?: Ittybit.LinksList;
 }

@@ -5,10 +5,8 @@
 import * as environments from "./environments";
 import * as core from "./core";
 import { Automations } from "./api/resources/automations/client/Client";
-import { Billing } from "./api/resources/billing/client/Client";
 import { Files } from "./api/resources/files/client/Client";
 import { Media } from "./api/resources/media/client/Client";
-import { Example } from "./api/resources/example/client/Client";
 import { Tasks } from "./api/resources/tasks/client/Client";
 import { Signatures } from "./api/resources/signatures/client/Client";
 
@@ -18,6 +16,8 @@ export declare namespace IttybitClient {
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
         token: core.Supplier<core.BearerToken>;
+        /** Override the ACCEPT_VERSION header */
+        version?: core.Supplier<string | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -28,6 +28,8 @@ export declare namespace IttybitClient {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
+        /** Override the ACCEPT_VERSION header */
+        version?: string | undefined;
         /** Additional headers to include in the request. */
         headers?: Record<string, string>;
     }
@@ -35,10 +37,8 @@ export declare namespace IttybitClient {
 
 export class IttybitClient {
     protected _automations: Automations | undefined;
-    protected _billing: Billing | undefined;
     protected _files: Files | undefined;
     protected _media: Media | undefined;
-    protected _example: Example | undefined;
     protected _tasks: Tasks | undefined;
     protected _signatures: Signatures | undefined;
 
@@ -48,20 +48,12 @@ export class IttybitClient {
         return (this._automations ??= new Automations(this._options));
     }
 
-    public get billing(): Billing {
-        return (this._billing ??= new Billing(this._options));
-    }
-
     public get files(): Files {
         return (this._files ??= new Files(this._options));
     }
 
     public get media(): Media {
         return (this._media ??= new Media(this._options));
-    }
-
-    public get example(): Example {
-        return (this._example ??= new Example(this._options));
     }
 
     public get tasks(): Tasks {

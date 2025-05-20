@@ -15,6 +15,16 @@ import * as Ittybit from "../../../../index";
  *             }
  *         }
  *     }
+ *
+ * @example
+ *     {
+ *         kind: "ingest",
+ *         url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+ *         filename: "bunny-1280x720.mp4",
+ *         folder: "examples/cartoons",
+ *         width: 1280,
+ *         height: 720
+ *     }
  */
 export interface TasksCreateRequest {
     /** The type of task to create. */

@@ -14,6 +14,8 @@ export declare namespace Signatures {
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
         token: core.Supplier<core.BearerToken>;
+        /** Override the ACCEPT_VERSION header */
+        version?: core.Supplier<string | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -24,6 +26,8 @@ export declare namespace Signatures {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
+        /** Override the ACCEPT_VERSION header */
+        version?: string | undefined;
         /** Additional headers to include in the request. */
         headers?: Record<string, string>;
     }
@@ -55,14 +59,14 @@ export class Signatures {
     public create(
         request: Ittybit.SignaturesCreateRequest,
         requestOptions?: Signatures.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.SignaturesCreateResponse> {
+    ): core.HttpResponsePromise<Ittybit.SignatureResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
         request: Ittybit.SignaturesCreateRequest,
         requestOptions?: Signatures.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.SignaturesCreateResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.SignatureResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -73,10 +77,14 @@ export class Signatures {
             method: "POST",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? await core.Supplier.get(this._options.version)
+                        : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.2",
-                "User-Agent": "@ittybit/sdk/0.7.2",
+                "X-Fern-SDK-Version": "0.7.4",
+                "User-Agent": "@ittybit/sdk/0.7.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -89,15 +97,21 @@ export class Signatures {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.SignaturesCreateResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.SignatureResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Ittybit.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.BadRequestError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new Ittybit.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Ittybit.UnauthorizedError(
+                        _response.error.body as Ittybit.ErrorResponse,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.IttybitError({
                         statusCode: _response.error.statusCode,

@@ -28,7 +28,7 @@ export interface Media {
     /** Combined file size of all sources in bytes. */
     filesize?: number;
     /** Array of source files associated with this media item. */
-    sources: Ittybit.MediaSourcesItem[];
+    sources: Ittybit.MediaSource[];
     /** Text tracks (e.g., subtitles, captions). */
     tracks?: Record<string, unknown>[];
     /** AI-generated analysis data. */

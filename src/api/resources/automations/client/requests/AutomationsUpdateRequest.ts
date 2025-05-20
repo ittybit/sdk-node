@@ -28,5 +28,5 @@ export interface AutomationsUpdateRequest {
     /** Defines the trigger event and conditions. To clear/remove a trigger, provide null. To update, provide the new trigger object. */
     trigger?: Ittybit.AutomationsUpdateRequestTrigger;
     /** The updated sequence of tasks for the automation. */
-    workflow?: Ittybit.AutomationsUpdateRequestWorkflowItem[];
+    workflow?: Ittybit.WorkflowTaskStep[];
 }

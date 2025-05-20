@@ -5,7 +5,7 @@
 import * as Ittybit from "../index";
 
 export interface FileResponse {
-    meta?: Ittybit.FileResponseMeta;
-    data?: Ittybit.FileResponseData;
-    links?: Ittybit.FileResponseLinks;
+    meta?: Ittybit.Meta | undefined;
+    data?: Ittybit.File_;
+    links?: Ittybit.Links;
 }

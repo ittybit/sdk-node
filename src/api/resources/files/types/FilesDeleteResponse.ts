@@ -5,7 +5,8 @@
 import * as Ittybit from "../../../index";
 
 export interface FilesDeleteResponse {
+    /** Contains a confirmation message */
     data?: Ittybit.FilesDeleteResponseData;
-    meta?: Ittybit.FilesDeleteResponseMeta;
-    links?: Ittybit.FilesDeleteResponseLinks;
+    meta?: Ittybit.Meta | undefined;
+    links?: Ittybit.Links;
 }

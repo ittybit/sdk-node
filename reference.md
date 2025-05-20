@@ -2,7 +2,7 @@
 
 ## Automations
 
-<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">list</a>() -> Ittybit.AutomationsListResponse</code></summary>
+<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">list</a>() -> Ittybit.AutomationListResponse</code></summary>
 <dl>
 <dd>
 
@@ -57,7 +57,7 @@ await client.automations.list();
 </dl>
 </details>
 
-<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">create</a>() -> Ittybit.AutomationsCreateResponse</code></summary>
+<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">create</a>() -> Ittybit.AutomationResponse</code></summary>
 <dl>
 <dd>
 
@@ -112,7 +112,7 @@ await client.automations.create();
 </dl>
 </details>
 
-<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">get</a>(id) -> Ittybit.AutomationsGetResponse</code></summary>
+<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">get</a>(id) -> Ittybit.AutomationResponse</code></summary>
 <dl>
 <dd>
 
@@ -156,7 +156,7 @@ await client.automations.get("id");
 <dl>
 <dd>
 
-**id:** `string` — The automation ID
+**id:** `string`
 
 </dd>
 </dl>
@@ -175,7 +175,7 @@ await client.automations.get("id");
 </dl>
 </details>
 
-<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">update</a>(id, { ...params }) -> Ittybit.AutomationsUpdateResponse</code></summary>
+<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">update</a>(id, { ...params }) -> Ittybit.AutomationResponse</code></summary>
 <dl>
 <dd>
 
@@ -237,7 +237,7 @@ await client.automations.update("id", {
 <dl>
 <dd>
 
-**id:** `string` — The ID of the automation to update.
+**id:** `string`
 
 </dd>
 </dl>
@@ -308,7 +308,7 @@ await client.automations.delete("id");
 <dl>
 <dd>
 
-**id:** `string` — The automation ID
+**id:** `string`
 
 </dd>
 </dl>
@@ -327,51 +327,9 @@ await client.automations.delete("id");
 </dl>
 </details>
 
-## Billing
-
-<details><summary><code>client.billing.<a href="/src/api/resources/billing/client/Client.ts">getBillingInformationForTheOrganization</a>() -> Ittybit.GetBillingResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.billing.getBillingInformationForTheOrganization();
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**requestOptions:** `Billing.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
 ## Files
 
-<details><summary><code>client.files.<a href="/src/api/resources/files/client/Client.ts">list</a>({ ...params }) -> Ittybit.FilesListResponse</code></summary>
+<details><summary><code>client.files.<a href="/src/api/resources/files/client/Client.ts">list</a>({ ...params }) -> Ittybit.FileListResponse</code></summary>
 <dl>
 <dd>
 
@@ -434,7 +392,7 @@ await client.files.list();
 </dl>
 </details>
 
-<details><summary><code>client.files.<a href="/src/api/resources/files/client/Client.ts">createFromUrl</a>({ ...params }) -> Ittybit.FilesCreateFromUrlResponse</code></summary>
+<details><summary><code>client.files.<a href="/src/api/resources/files/client/Client.ts">create</a>({ ...params }) -> Ittybit.FileResponse</code></summary>
 <dl>
 <dd>
 
@@ -462,12 +420,12 @@ Registers a file from a publicly accessible URL. The file will be ingested async
 <dd>
 
 ```typescript
-await client.files.createFromUrl({
+await client.files.create({
     url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-    filename: "BigBuckBunny.mp4",
+    filename: "bunny.mp4",
     folder: "examples/cartoons",
     metadata: {
-        source: "google_storage_sample",
+        credit: "gtv-videos-bucket",
     },
 });
 ```
@@ -485,7 +443,7 @@ await client.files.createFromUrl({
 <dl>
 <dd>
 
-**request:** `Ittybit.FilesCreateFromUrlRequest`
+**request:** `Ittybit.FilesCreateRequest`
 
 </dd>
 </dl>
@@ -504,7 +462,7 @@ await client.files.createFromUrl({
 </dl>
 </details>
 
-<details><summary><code>client.files.<a href="/src/api/resources/files/client/Client.ts">get</a>(id) -> Ittybit.FilesGetResponse</code></summary>
+<details><summary><code>client.files.<a href="/src/api/resources/files/client/Client.ts">get</a>(id) -> Ittybit.FileResponse</code></summary>
 <dl>
 <dd>
 
@@ -548,7 +506,7 @@ await client.files.get("id");
 <dl>
 <dd>
 
-**id:** `string` — Unique identifier of the file to retrieve. Must be a valid file ID (e.g., file_7bKpN2950Dx4EW8T).
+**id:** `string`
 
 </dd>
 </dl>
@@ -611,7 +569,7 @@ await client.files.delete("id");
 <dl>
 <dd>
 
-**id:** `string` — Unique identifier of the file to delete. Must be a valid file ID (e.g., file_7bKpN2950Dx4EW8T).
+**id:** `string`
 
 </dd>
 </dl>
@@ -630,7 +588,7 @@ await client.files.delete("id");
 </dl>
 </details>
 
-<details><summary><code>client.files.<a href="/src/api/resources/files/client/Client.ts">updateMetadata</a>(id, { ...params }) -> Ittybit.FilesUpdateMetadataResponse</code></summary>
+<details><summary><code>client.files.<a href="/src/api/resources/files/client/Client.ts">update</a>(id, { ...params }) -> Ittybit.FileResponse</code></summary>
 <dl>
 <dd>
 
@@ -658,11 +616,9 @@ Updates metadata, filename, or folder properties of an existing file. Only the s
 <dd>
 
 ```typescript
-await client.files.updateMetadata("id", {
-    metadata: {
-        status: "approved",
-        reviewed_by: "user_abc",
-    },
+await client.files.update("id", {
+    filename: "final_approved_video.mp4",
+    folder: "archive/2024",
 });
 ```
 
@@ -679,7 +635,7 @@ await client.files.updateMetadata("id", {
 <dl>
 <dd>
 
-**id:** `string` — Unique identifier of the file to update. Must be a valid file ID (e.g., file_abc123).
+**id:** `string`
 
 </dd>
 </dl>
@@ -687,7 +643,7 @@ await client.files.updateMetadata("id", {
 <dl>
 <dd>
 
-**request:** `Ittybit.FilesUpdateMetadataRequest`
+**request:** `Ittybit.FilesUpdateRequest`
 
 </dd>
 </dl>
@@ -771,7 +727,7 @@ await client.media.list();
 </dl>
 </details>
 
-<details><summary><code>client.media.<a href="/src/api/resources/media/client/Client.ts">create</a>({ ...params }) -> Ittybit.MediaCreateResponse</code></summary>
+<details><summary><code>client.media.<a href="/src/api/resources/media/client/Client.ts">create</a>({ ...params }) -> Ittybit.MediaResponse</code></summary>
 <dl>
 <dd>
 
@@ -800,12 +756,11 @@ Creates a new media item from a URL or as an empty placeholder
 
 ```typescript
 await client.media.create({
-    url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-    folder: "examples/movies",
-    filename: "escapes.mp4",
+    url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    folder: "examples/cartoons",
+    filename: "bunny.mp4",
     metadata: {
-        genre: "Animation",
-        rating: "G",
+        credit: "gtv-videos-bucket",
     },
 });
 ```
@@ -842,7 +797,7 @@ await client.media.create({
 </dl>
 </details>
 
-<details><summary><code>client.media.<a href="/src/api/resources/media/client/Client.ts">get</a>(id) -> Ittybit.MediaGetResponse</code></summary>
+<details><summary><code>client.media.<a href="/src/api/resources/media/client/Client.ts">get</a>(id) -> Ittybit.MediaResponse</code></summary>
 <dl>
 <dd>
 
@@ -886,7 +841,7 @@ await client.media.get("id");
 <dl>
 <dd>
 
-**id:** `string` — The media ID
+**id:** `string`
 
 </dd>
 </dl>
@@ -905,7 +860,7 @@ await client.media.get("id");
 </dl>
 </details>
 
-<details><summary><code>client.media.<a href="/src/api/resources/media/client/Client.ts">delete</a>(id) -> Ittybit.MediaDeleteResponse</code></summary>
+<details><summary><code>client.media.<a href="/src/api/resources/media/client/Client.ts">delete</a>(id) -> Ittybit.ConfirmationResponse</code></summary>
 <dl>
 <dd>
 
@@ -949,7 +904,7 @@ await client.media.delete("id");
 <dl>
 <dd>
 
-**id:** `string` — The media ID
+**id:** `string`
 
 </dd>
 </dl>
@@ -968,11 +923,24 @@ await client.media.delete("id");
 </dl>
 </details>
 
-## Example
-
-<details><summary><code>client.example.<a href="/src/api/resources/example/client/Client.ts">exampleEndpoint</a>({ ...params }) -> Ittybit.GetApiExampleResponse</code></summary>
+<details><summary><code>client.media.<a href="/src/api/resources/media/client/Client.ts">update</a>(id, { ...params }) -> Ittybit.MediaResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates specific fields of a media item by its ID. Only the fields provided in the request body will be updated.
+
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -983,7 +951,7 @@ await client.media.delete("id");
 <dd>
 
 ```typescript
-await client.example.exampleEndpoint();
+await client.media.update("id");
 ```
 
 </dd>
@@ -999,7 +967,7 @@ await client.example.exampleEndpoint();
 <dl>
 <dd>
 
-**request:** `Ittybit.GetApiExampleRequest`
+**id:** `string`
 
 </dd>
 </dl>
@@ -1007,7 +975,15 @@ await client.example.exampleEndpoint();
 <dl>
 <dd>
 
-**requestOptions:** `Example.RequestOptions`
+**request:** `Ittybit.MediaUpdateRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Media.RequestOptions`
 
 </dd>
 </dl>
@@ -1020,7 +996,7 @@ await client.example.exampleEndpoint();
 
 ## Tasks
 
-<details><summary><code>client.tasks.<a href="/src/api/resources/tasks/client/Client.ts">listFiltered</a>({ ...params }) -> Ittybit.TasksListFilteredResponse</code></summary>
+<details><summary><code>client.tasks.<a href="/src/api/resources/tasks/client/Client.ts">list</a>({ ...params }) -> Ittybit.TaskListResponse</code></summary>
 <dl>
 <dd>
 
@@ -1048,7 +1024,7 @@ Retrieves a list of tasks for the project, optionally filtered by status or kind
 <dd>
 
 ```typescript
-await client.tasks.listFiltered();
+await client.tasks.list();
 ```
 
 </dd>
@@ -1064,7 +1040,7 @@ await client.tasks.listFiltered();
 <dl>
 <dd>
 
-**request:** `Ittybit.TasksListFilteredRequest`
+**request:** `Ittybit.TasksListRequest`
 
 </dd>
 </dl>
@@ -1083,7 +1059,7 @@ await client.tasks.listFiltered();
 </dl>
 </details>
 
-<details><summary><code>client.tasks.<a href="/src/api/resources/tasks/client/Client.ts">create</a>({ ...params }) -> Ittybit.TasksCreateResponse</code></summary>
+<details><summary><code>client.tasks.<a href="/src/api/resources/tasks/client/Client.ts">create</a>({ ...params }) -> Ittybit.TaskResponse</code></summary>
 <dl>
 <dd>
 
@@ -1209,7 +1185,7 @@ await client.tasks.getTaskConfig();
 </dl>
 </details>
 
-<details><summary><code>client.tasks.<a href="/src/api/resources/tasks/client/Client.ts">get</a>(id) -> Ittybit.TasksGetResponse</code></summary>
+<details><summary><code>client.tasks.<a href="/src/api/resources/tasks/client/Client.ts">get</a>(id) -> Ittybit.TaskResponse</code></summary>
 <dl>
 <dd>
 
@@ -1253,7 +1229,7 @@ await client.tasks.get("id");
 <dl>
 <dd>
 
-**id:** `string` — The ID of the task to retrieve.
+**id:** `string`
 
 </dd>
 </dl>
@@ -1274,7 +1250,7 @@ await client.tasks.get("id");
 
 ## Signatures
 
-<details><summary><code>client.signatures.<a href="/src/api/resources/signatures/client/Client.ts">create</a>({ ...params }) -> Ittybit.SignaturesCreateResponse</code></summary>
+<details><summary><code>client.signatures.<a href="/src/api/resources/signatures/client/Client.ts">create</a>({ ...params }) -> Ittybit.SignatureResponse</code></summary>
 <dl>
 <dd>
 

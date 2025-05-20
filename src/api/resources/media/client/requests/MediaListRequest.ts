@@ -8,10 +8,6 @@
  */
 export interface MediaListRequest {
     /**
-     * Page number for pagination.
-     */
-    page?: number;
-    /**
      * Number of media items to return per page.
      */
     limit?: number;

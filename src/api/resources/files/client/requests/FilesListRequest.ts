@@ -8,10 +8,6 @@
  */
 export interface FilesListRequest {
     /**
-     * Page number
-     */
-    page?: number;
-    /**
      * Items per page
      */
     limit?: number;
