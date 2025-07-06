@@ -7,5 +7,6 @@ import * as Ittybit from "../index";
 export interface TaskListResponse {
     meta?: Ittybit.MetaList;
     data?: Ittybit.Task[];
+    error?: Ittybit.Error_;
     links?: Ittybit.LinksList;
 }

@@ -7,5 +7,6 @@ import * as Ittybit from "../index";
 export interface TaskResponse {
     meta?: Ittybit.Meta | undefined;
     data?: Ittybit.Task;
+    error?: Ittybit.Error_;
     links?: Ittybit.Links;
 }

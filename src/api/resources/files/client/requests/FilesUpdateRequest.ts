@@ -5,15 +5,16 @@
 /**
  * @example
  *     {
- *         filename: "final_approved_video.mp4",
- *         folder: "archive/2024"
+ *         folder: "updated/folder",
+ *         filename: "new_filename.mp4",
+ *         metadata: {
+ *             "customKey2": "a different custom value"
+ *         }
  *     }
  */
 export interface FilesUpdateRequest {
-    /** An object containing key-value pairs to set or update. Set a key to null to remove it. */
-    metadata?: Record<string, unknown>;
-    /** New filename for the file. */
-    filename?: string;
-    /** New folder path for the file. */
     folder?: string;
+    filename?: string;
+    ref?: string;
+    metadata?: Record<string, unknown>;
 }

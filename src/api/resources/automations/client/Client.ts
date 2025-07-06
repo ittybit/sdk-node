@@ -34,7 +34,7 @@ export declare namespace Automations {
 }
 
 /**
- * Manage automated workflows
+ * You can use the `/automations` and `/automations/{id}` endpoints to manage automated workflows.
  */
 export class Automations {
     constructor(protected readonly _options: Automations.Options) {}
@@ -43,9 +43,6 @@ export class Automations {
      * Retrieves a list of all automations for the current project
      *
      * @param {Automations.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
      *
      * @example
      *     await client.automations.list()
@@ -73,8 +70,8 @@ export class Automations {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -90,24 +87,11 @@ export class Automations {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {
@@ -131,10 +115,6 @@ export class Automations {
      * Creates a new automation for the current project
      *
      * @param {Automations.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Ittybit.BadRequestError}
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
      *
      * @example
      *     await client.automations.create()
@@ -162,8 +142,8 @@ export class Automations {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -179,29 +159,11 @@ export class Automations {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Ittybit.BadRequestError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {
@@ -226,10 +188,6 @@ export class Automations {
      *
      * @param {string} id
      * @param {Automations.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
-     * @throws {@link Ittybit.NotFoundError}
      *
      * @example
      *     await client.automations.get("id")
@@ -261,8 +219,8 @@ export class Automations {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -278,29 +236,11 @@ export class Automations {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 404:
-                    throw new Ittybit.NotFoundError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {
@@ -327,11 +267,6 @@ export class Automations {
      * @param {Ittybit.AutomationsUpdateRequest} request
      * @param {Automations.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link Ittybit.BadRequestError}
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
-     * @throws {@link Ittybit.NotFoundError}
-     *
      * @example
      *     await client.automations.update("id", {
      *         name: "Updated Transcoder Example",
@@ -344,7 +279,6 @@ export class Automations {
      *         },
      *         workflow: [{
      *                 kind: "image",
-     *                 label: "archive_image",
      *                 format: "webp"
      *             }]
      *     })
@@ -378,8 +312,8 @@ export class Automations {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -396,34 +330,11 @@ export class Automations {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Ittybit.BadRequestError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 404:
-                    throw new Ittybit.NotFoundError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {
@@ -448,10 +359,6 @@ export class Automations {
      *
      * @param {string} id
      * @param {Automations.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
-     * @throws {@link Ittybit.NotFoundError}
      *
      * @example
      *     await client.automations.delete("id")
@@ -480,8 +387,8 @@ export class Automations {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -497,29 +404,11 @@ export class Automations {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 404:
-                    throw new Ittybit.NotFoundError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {

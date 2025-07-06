@@ -7,5 +7,6 @@ import * as Ittybit from "../index";
 export interface FileListResponse {
     meta?: Ittybit.MetaList;
     data?: Ittybit.File_[];
+    error?: Ittybit.Error_;
     links?: Ittybit.LinksList;
 }

@@ -5,29 +5,15 @@
 /**
  * @example
  *     {
- *         url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
- *         folder: "examples/cartoons",
- *         filename: "bunny.mp4",
+ *         title: "My Video Example",
+ *         alt: "An example video used to demonstrate the ittybit API",
  *         metadata: {
- *             "credit": "gtv-videos-bucket"
+ *             "customKey2": "a different custom value"
  *         }
  *     }
  */
 export interface MediaCreateRequest {
-    /** URL of the media file to ingest. Required unless 'empty' is true. */
-    url?: string;
-    /** Label for the media */
-    label?: string;
-    /** Folder to store the media in */
-    folder?: string;
-    /** Filename for the media */
-    filename?: string;
-    /** Title for the media */
     title?: string;
-    /** Additional metadata for the media */
+    alt?: string;
     metadata?: Record<string, unknown>;
-    /** Whether to process the media asynchronously */
-    async?: boolean;
-    /** Create an empty media placeholder */
-    empty?: boolean;
 }

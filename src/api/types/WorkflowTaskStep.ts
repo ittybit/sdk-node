@@ -5,18 +5,15 @@
 import * as Ittybit from "../index";
 
 export interface WorkflowTaskStep {
-    /** The type of operation the task performs. */
     kind: Ittybit.WorkflowTaskStepKind;
-    /** Optional label for the output of this step. */
-    label?: string;
-    /** Output format (e.g., mp4, jpg) */
+    ref?: string;
     format?: string;
-    /** Output width */
+    start?: number;
+    end?: number;
     width?: number;
-    /** Output height */
     height?: number;
-    /** Resize mode */
-    resize?: string;
-    /** Quality setting */
+    fit?: string;
+    background?: string;
     quality?: number;
+    next?: unknown[];
 }

@@ -5,27 +5,19 @@
 /**
  * @example
  *     {
- *         url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
- *         filename: "bunny.mp4",
- *         folder: "examples/cartoons",
+ *         url: "https://ittyb.it/sample.mp4",
+ *         folder: "ittybit/samples",
+ *         filename: "video.mp4",
  *         metadata: {
- *             "credit": "gtv-videos-bucket"
+ *             "customKey2": "a different custom value"
  *         }
  *     }
  */
 export interface FilesCreateRequest {
-    /** The publicly accessible URL of the file to ingest. */
     url: string;
-    /** Optional desired filename. If not provided, it may be derived from the URL. */
-    filename?: string;
-    /** Folder path (optional) */
-    folder?: string;
-    /** Optional existing media ID to associate the file with. */
     media_id?: string;
-    /** Optional label for the file. */
-    label?: string;
-    /** Optional user-defined key-value metadata. */
+    folder?: string;
+    filename?: string;
+    ref?: string;
     metadata?: Record<string, unknown>;
-    /** Whether to process the ingestion asynchronously. */
-    async?: boolean;
 }

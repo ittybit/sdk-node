@@ -7,5 +7,6 @@ import * as Ittybit from "../index";
 export interface SignatureResponse {
     meta?: Ittybit.Meta | undefined;
     data?: Ittybit.Signature;
+    error?: Ittybit.Error_;
     links?: Ittybit.Links;
 }

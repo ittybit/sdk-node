@@ -17,7 +17,6 @@ import * as Ittybit from "../../../../index";
  *         },
  *         workflow: [{
  *                 kind: "image",
- *                 label: "archive_image",
  *                 format: "webp"
  *             }]
  *     }

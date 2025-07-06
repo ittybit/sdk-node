@@ -4,50 +4,30 @@
 
 import * as Ittybit from "../index";
 
-/**
- * Represents a source file associated with a media item.
- */
 export interface MediaSource {
-    /** Unique identifier for the source file. */
     id: string;
-    /** Object type, always 'source' for media sources. */
-    object: string;
-    /** The general type of media (e.g., video, image). */
+    object: Ittybit.MediaSourceObject;
     kind: Ittybit.MediaSourceKind;
-    /** Specific file format (e.g., mp4, webm, jpg). */
-    format: string;
-    /** MIME type, potentially including codec info. */
     type: string;
-    /** File container format. */
-    container?: string;
-    /** Primary codec. */
     codec?: string;
-    /** Width in pixels. */
+    container?: string;
     width?: number;
-    /** Height in pixels. */
     height?: number;
-    /** Visual orientation. */
     orientation?: Ittybit.MediaSourceOrientation;
-    /** Duration in seconds. */
+    rotation?: number;
+    transparency?: boolean;
+    frames?: number;
     duration?: number;
-    /** Frames per second. */
     fps?: number;
-    /** Source file size in bytes. */
     filesize: number;
-    /** Average bitrate in bits per second. */
     bitrate?: number;
-    /** Is this the originally ingested file? */
-    original: boolean;
-    /** User-defined label for this source. */
-    label?: string;
-    /** URL of the source file. */
-    src: string;
-    /** The folder path. */
+    ref?: string;
     folder?: string;
-    /** The filename of the source file. */
-    filename: string;
-    /** Timestamp created. */
+    filename?: string;
+    url: string;
+    metadata?: Record<string, unknown>;
+    original?: boolean;
     created: string;
-    /** Timestamp updated. */
     updated: string;
+    status: Ittybit.MediaSourceStatus;
 }

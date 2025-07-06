@@ -8,18 +8,14 @@ import * as Ittybit from "../../../../index";
  * @example
  *     {
  *         filename: "video.mp4",
- *         folder: "private/user_123",
+ *         folder: "example",
  *         expiry: 1735689600,
- *         method: "get"
+ *         method: "put"
  *     }
  */
 export interface SignaturesCreateRequest {
-    /** The name of the file to generate a signature for. Special characters will be sanitised. */
     filename: string;
-    /** Optional folder path where the file resides. Special characters will be sanitised. */
     folder?: string;
-    /** Optional expiry time for the signature in seconds since epoch. Defaults to 60 minutes from now. Must be a positive integer and in the future. */
     expiry?: number;
-    /** Optional HTTP method allowed for the signed URL. Defaults to 'get'. */
     method?: Ittybit.SignaturesCreateRequestMethod;
 }

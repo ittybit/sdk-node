@@ -3,8 +3,6 @@
  */
 
 export interface Links {
-    /** The absolute URL of the current request, potentially including query parameters. */
     self?: string;
-    /** URL for the parent resource. */
     parent?: string;
 }

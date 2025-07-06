@@ -34,19 +34,16 @@ export declare namespace Media {
 }
 
 /**
- * Manage media items (collections of files)
+ * You can use the `/media` and `/media/{id}` endpoints to manage media items.
  */
 export class Media {
     constructor(protected readonly _options: Media.Options) {}
 
     /**
-     * Retrieves a list of all media for the current project
+     * Retrieves a paginated list of all media for the current project
      *
      * @param {Ittybit.MediaListRequest} request
      * @param {Media.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
      *
      * @example
      *     await client.media.list()
@@ -84,8 +81,8 @@ export class Media {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -102,24 +99,11 @@ export class Media {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {
@@ -140,22 +124,17 @@ export class Media {
     }
 
     /**
-     * Creates a new media item from a URL or as an empty placeholder
+     * Creates a new media item.
      *
      * @param {Ittybit.MediaCreateRequest} request
      * @param {Media.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link Ittybit.BadRequestError}
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
-     *
      * @example
      *     await client.media.create({
-     *         url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-     *         folder: "examples/cartoons",
-     *         filename: "bunny.mp4",
+     *         title: "My Video Example",
+     *         alt: "An example video used to demonstrate the ittybit API",
      *         metadata: {
-     *             "credit": "gtv-videos-bucket"
+     *             "customKey2": "a different custom value"
      *         }
      *     })
      */
@@ -186,8 +165,8 @@ export class Media {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -204,29 +183,11 @@ export class Media {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Ittybit.BadRequestError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {
@@ -247,14 +208,10 @@ export class Media {
     }
 
     /**
-     * Retrieves a specific media item by its ID
+     * Retrieves the media object for a media with the given ID.
      *
      * @param {string} id
      * @param {Media.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
-     * @throws {@link Ittybit.NotFoundError}
      *
      * @example
      *     await client.media.get("id")
@@ -283,8 +240,8 @@ export class Media {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -300,29 +257,11 @@ export class Media {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 404:
-                    throw new Ittybit.NotFoundError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {
@@ -343,14 +282,10 @@ export class Media {
     }
 
     /**
-     * Deletes a specific media item by its ID
+     * Permanently removes a media object from the system. This action cannot be undone.
      *
      * @param {string} id
      * @param {Media.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
-     * @throws {@link Ittybit.NotFoundError}
      *
      * @example
      *     await client.media.delete("id")
@@ -382,8 +317,8 @@ export class Media {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -399,29 +334,11 @@ export class Media {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 404:
-                    throw new Ittybit.NotFoundError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {
@@ -442,19 +359,20 @@ export class Media {
     }
 
     /**
-     * Updates specific fields of a media item by its ID. Only the fields provided in the request body will be updated.
+     * Updates a media object's `title`, `alt`, or `metadata`. Only the specified fields will be updated.
      *
      * @param {string} id
      * @param {Ittybit.MediaUpdateRequest} request
      * @param {Media.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link Ittybit.BadRequestError}
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
-     * @throws {@link Ittybit.NotFoundError}
-     *
      * @example
-     *     await client.media.update("id")
+     *     await client.media.update("id", {
+     *         title: "Updated Video Example",
+     *         alt: "An updated example video used to demonstrate the ittybit API",
+     *         metadata: {
+     *             "customKey2": "a different custom value"
+     *         }
+     *     })
      */
     public update(
         id: string,
@@ -485,8 +403,8 @@ export class Media {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -503,34 +421,11 @@ export class Media {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Ittybit.BadRequestError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 404:
-                    throw new Ittybit.NotFoundError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {

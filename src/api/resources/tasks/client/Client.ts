@@ -34,7 +34,7 @@ export declare namespace Tasks {
 }
 
 /**
- * Manage processing tasks
+ * You can use the `/tasks` and `/tasks/{id}` endpoints to manage processing tasks.
  */
 export class Tasks {
     constructor(protected readonly _options: Tasks.Options) {}
@@ -44,9 +44,6 @@ export class Tasks {
      *
      * @param {Ittybit.TasksListRequest} request
      * @param {Tasks.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
      *
      * @example
      *     await client.tasks.list()
@@ -92,8 +89,8 @@ export class Tasks {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -110,24 +107,11 @@ export class Tasks {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {
@@ -153,11 +137,6 @@ export class Tasks {
      * @param {Ittybit.TasksCreateRequest} request
      * @param {Tasks.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link Ittybit.BadRequestError}
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
-     * @throws {@link Ittybit.NotFoundError}
-     *
      * @example
      *     await client.tasks.create({
      *         kind: "ingest",
@@ -172,7 +151,7 @@ export class Tasks {
      * @example
      *     await client.tasks.create({
      *         kind: "ingest",
-     *         url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+     *         url: "https://ittyb.it/sample.mp4",
      *         filename: "bunny-1280x720.mp4",
      *         folder: "examples/cartoons",
      *         width: 1280,
@@ -206,8 +185,8 @@ export class Tasks {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -224,34 +203,11 @@ export class Tasks {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Ittybit.BadRequestError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 404:
-                    throw new Ittybit.NotFoundError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {
@@ -275,9 +231,6 @@ export class Tasks {
      * Retrieves available task kinds and their configuration options.
      *
      * @param {Tasks.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
      *
      * @example
      *     await client.tasks.getTaskConfig()
@@ -305,8 +258,8 @@ export class Tasks {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -322,24 +275,11 @@ export class Tasks {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {
@@ -364,10 +304,6 @@ export class Tasks {
      *
      * @param {string} id
      * @param {Tasks.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
-     * @throws {@link Ittybit.NotFoundError}
      *
      * @example
      *     await client.tasks.get("id")
@@ -396,8 +332,8 @@ export class Tasks {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -413,29 +349,11 @@ export class Tasks {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 404:
-                    throw new Ittybit.NotFoundError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {

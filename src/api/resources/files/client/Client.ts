@@ -34,18 +34,16 @@ export declare namespace Files {
 }
 
 /**
- * Manage individual file assets
+ * You can use the `/files` and `/files/{id}` endpoints to manage individual file assets.
  */
 export class Files {
     constructor(protected readonly _options: Files.Options) {}
 
     /**
-     * Retrieves a paginated list of all files associated with the current project. Files can be filtered using query parameters.
+     * Retrieves a paginated list of all files associated with the current project.
      *
      * @param {Ittybit.FilesListRequest} request
      * @param {Files.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Ittybit.BadRequestError}
      *
      * @example
      *     await client.files.list()
@@ -83,8 +81,8 @@ export class Files {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -101,19 +99,11 @@ export class Files {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Ittybit.BadRequestError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {
@@ -134,23 +124,18 @@ export class Files {
     }
 
     /**
-     * Registers a file from a publicly accessible URL. The file will be ingested asynchronously.
+     * Creates a new file from a publicly accessible or signed URL.
      *
      * @param {Ittybit.FilesCreateRequest} request
      * @param {Files.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link Ittybit.BadRequestError}
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
-     * @throws {@link Ittybit.NotFoundError}
-     *
      * @example
      *     await client.files.create({
-     *         url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-     *         filename: "bunny.mp4",
-     *         folder: "examples/cartoons",
+     *         url: "https://ittyb.it/sample.mp4",
+     *         folder: "ittybit/samples",
+     *         filename: "video.mp4",
      *         metadata: {
-     *             "credit": "gtv-videos-bucket"
+     *             "customKey2": "a different custom value"
      *         }
      *     })
      */
@@ -181,8 +166,8 @@ export class Files {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -199,34 +184,11 @@ export class Files {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Ittybit.BadRequestError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 404:
-                    throw new Ittybit.NotFoundError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {
@@ -247,12 +209,10 @@ export class Files {
     }
 
     /**
-     * Retrieves detailed information about a specific file identified by its unique ID, including its metadata, media associations, and technical properties.
+     * Retrieve the file object for a file with the given ID.
      *
      * @param {string} id
      * @param {Files.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Ittybit.NotFoundError}
      *
      * @example
      *     await client.files.get("id")
@@ -281,8 +241,8 @@ export class Files {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -298,19 +258,11 @@ export class Files {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 404:
-                    throw new Ittybit.NotFoundError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {
@@ -331,14 +283,10 @@ export class Files {
     }
 
     /**
-     * Permanently removes a file from the system. This action cannot be undone. Associated media entries may still reference this file ID.
+     * Permanently removes a file from the system. This action cannot be undone.
      *
      * @param {string} id
      * @param {Files.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
-     * @throws {@link Ittybit.NotFoundError}
      *
      * @example
      *     await client.files.delete("id")
@@ -346,14 +294,14 @@ export class Files {
     public delete(
         id: string,
         requestOptions?: Files.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.FilesDeleteResponse> {
+    ): core.HttpResponsePromise<Ittybit.ConfirmationResponse> {
         return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
     }
 
     private async __delete(
         id: string,
         requestOptions?: Files.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.FilesDeleteResponse>> {
+    ): Promise<core.WithRawResponse<Ittybit.ConfirmationResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -370,8 +318,8 @@ export class Files {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -383,33 +331,15 @@ export class Files {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Ittybit.FilesDeleteResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Ittybit.ConfirmationResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 404:
-                    throw new Ittybit.NotFoundError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {
@@ -430,21 +360,19 @@ export class Files {
     }
 
     /**
-     * Updates metadata, filename, or folder properties of an existing file. Only the specified fields will be updated.
+     * Update a file's `filename`, `folder`, `ref`, or `metadata`. Only the specified fields will be updated.
      *
      * @param {string} id
      * @param {Ittybit.FilesUpdateRequest} request
      * @param {Files.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link Ittybit.BadRequestError}
-     * @throws {@link Ittybit.UnauthorizedError}
-     * @throws {@link Ittybit.ForbiddenError}
-     * @throws {@link Ittybit.NotFoundError}
-     *
      * @example
      *     await client.files.update("id", {
-     *         filename: "final_approved_video.mp4",
-     *         folder: "archive/2024"
+     *         folder: "updated/folder",
+     *         filename: "new_filename.mp4",
+     *         metadata: {
+     *             "customKey2": "a different custom value"
+     *         }
      *     })
      */
     public update(
@@ -476,8 +404,8 @@ export class Files {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -494,34 +422,11 @@ export class Files {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Ittybit.BadRequestError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 403:
-                    throw new Ittybit.ForbiddenError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 404:
-                    throw new Ittybit.NotFoundError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {

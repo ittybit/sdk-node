@@ -5,44 +5,36 @@
 import * as Ittybit from "../index";
 
 export interface File_ {
-    /** Unique identifier for the file. */
     id: string;
-    /** Identifier for the parent media object. */
     media_id: string;
-    /** Object type, typically 'source' or 'derivative'. */
-    object: string;
-    /** The general type of media. */
+    object: Ittybit.FileObject;
     kind: Ittybit.FileKind;
-    /** Specific file format/codec. */
-    format: string;
-    /** MIME type. */
     type: string;
-    /** Width in pixels (for image/video). */
+    codec?: string;
+    container?: string;
     width?: number;
-    /** Height in pixels (for image/video). */
     height?: number;
-    /** Duration in seconds (for audio/video). */
+    orientation?: string;
+    rotation?: number;
+    transparency?: boolean;
+    animated?: boolean;
+    frames?: number;
     duration?: number;
-    /** Frames per second (for video). */
     fps?: number;
-    /** File size in bytes. */
     filesize: number;
-    /** The folder path where the file is stored. */
+    bitrate?: number;
+    language?: string;
+    label?: string;
+    ref?: string;
     folder?: string;
-    /** The name of the file. */
-    filename: string;
-    /** Publicly accessible URL for the file. */
+    filename?: string;
     url: string;
-    /** ID of the entity (e.g., task, user) that created this file. */
-    created_by?: string;
-    /** Timestamp when the file record was created. */
-    created: string;
-    /** Timestamp when the file record was last updated. */
-    updated: string;
-    /** User-defined key-value metadata. */
+    placeholder?: string;
+    background?: string;
     metadata?: Record<string, unknown>;
-    /** System-generated analysis data. */
-    analysis?: Record<string, unknown>;
-    /** Indicates if this is the originally uploaded file. */
     original?: boolean;
+    created_by?: string;
+    created: string;
+    updated: string;
+    status: Ittybit.FileStatus;
 }

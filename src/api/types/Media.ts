@@ -5,50 +5,18 @@
 import * as Ittybit from "../index";
 
 export interface Media {
-    /** Unique identifier for the media item. */
     id: string;
-    /** Object type, always 'media'. */
     object: string;
-    /** Organisation ID associated with the request. */
-    org_id: string;
-    /** Project ID associated with the request. */
-    project_id: string;
-    /** Indicates if the item is in live mode. */
-    live_mode: boolean;
-    /** The primary kind of the media item, derived from its sources. */
-    kind: Ittybit.MediaKind;
-    /** The primary MIME type of the media item. */
-    type: string;
-    /** Width of the primary source in pixels. */
+    kind?: Ittybit.MediaKind;
+    title?: string;
+    alt?: string;
     width?: number;
-    /** Height of the primary source in pixels. */
     height?: number;
-    /** Duration of the primary source in seconds. */
     duration?: number;
-    /** Combined file size of all sources in bytes. */
-    filesize?: number;
-    /** Array of source files associated with this media item. */
-    sources: Ittybit.MediaSource[];
-    /** Text tracks (e.g., subtitles, captions). */
-    tracks?: Record<string, unknown>[];
-    /** AI-generated analysis data. */
-    intelligence?: Record<string, unknown>[];
-    /** URL of the primary original source file. */
-    original: string;
-    /** Low-quality image placeholder (data URI). */
-    placeholder?: string;
-    /** Dominant background color hex code. */
+    files: Ittybit.MediaSource[];
+    urls: Record<string, unknown>;
     background?: string;
-    /** The folder path containing the primary source file. */
-    folder?: string;
-    /** The filename of the primary source file. */
-    filename?: string;
-    /** User-defined key-value metadata for the media item. */
     metadata?: Record<string, unknown>;
-    /** Timestamp when the media record was created. */
     created: string;
-    /** Timestamp when the media item was last updated. */
     updated: string;
-    /** Processing status. */
-    status: Ittybit.MediaStatus;
 }

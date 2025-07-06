@@ -217,7 +217,6 @@ await client.automations.update("id", {
     workflow: [
         {
             kind: "image",
-            label: "archive_image",
             format: "webp",
         },
     ],
@@ -341,7 +340,7 @@ await client.automations.delete("id");
 <dl>
 <dd>
 
-Retrieves a paginated list of all files associated with the current project. Files can be filtered using query parameters.
+Retrieves a paginated list of all files associated with the current project.
 
 </dd>
 </dl>
@@ -404,7 +403,7 @@ await client.files.list();
 <dl>
 <dd>
 
-Registers a file from a publicly accessible URL. The file will be ingested asynchronously.
+Creates a new file from a publicly accessible or signed URL.
 
 </dd>
 </dl>
@@ -421,11 +420,11 @@ Registers a file from a publicly accessible URL. The file will be ingested async
 
 ```typescript
 await client.files.create({
-    url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-    filename: "bunny.mp4",
-    folder: "examples/cartoons",
+    url: "https://ittyb.it/sample.mp4",
+    folder: "ittybit/samples",
+    filename: "video.mp4",
     metadata: {
-        credit: "gtv-videos-bucket",
+        customKey2: "a different custom value",
     },
 });
 ```
@@ -474,7 +473,7 @@ await client.files.create({
 <dl>
 <dd>
 
-Retrieves detailed information about a specific file identified by its unique ID, including its metadata, media associations, and technical properties.
+Retrieve the file object for a file with the given ID.
 
 </dd>
 </dl>
@@ -525,7 +524,7 @@ await client.files.get("id");
 </dl>
 </details>
 
-<details><summary><code>client.files.<a href="/src/api/resources/files/client/Client.ts">delete</a>(id) -> Ittybit.FilesDeleteResponse</code></summary>
+<details><summary><code>client.files.<a href="/src/api/resources/files/client/Client.ts">delete</a>(id) -> Ittybit.ConfirmationResponse</code></summary>
 <dl>
 <dd>
 
@@ -537,7 +536,7 @@ await client.files.get("id");
 <dl>
 <dd>
 
-Permanently removes a file from the system. This action cannot be undone. Associated media entries may still reference this file ID.
+Permanently removes a file from the system. This action cannot be undone.
 
 </dd>
 </dl>
@@ -600,7 +599,7 @@ await client.files.delete("id");
 <dl>
 <dd>
 
-Updates metadata, filename, or folder properties of an existing file. Only the specified fields will be updated.
+Update a file's `filename`, `folder`, `ref`, or `metadata`. Only the specified fields will be updated.
 
 </dd>
 </dl>
@@ -617,8 +616,11 @@ Updates metadata, filename, or folder properties of an existing file. Only the s
 
 ```typescript
 await client.files.update("id", {
-    filename: "final_approved_video.mp4",
-    folder: "archive/2024",
+    folder: "updated/folder",
+    filename: "new_filename.mp4",
+    metadata: {
+        customKey2: "a different custom value",
+    },
 });
 ```
 
@@ -676,7 +678,7 @@ await client.files.update("id", {
 <dl>
 <dd>
 
-Retrieves a list of all media for the current project
+Retrieves a paginated list of all media for the current project
 
 </dd>
 </dl>
@@ -739,7 +741,7 @@ await client.media.list();
 <dl>
 <dd>
 
-Creates a new media item from a URL or as an empty placeholder
+Creates a new media item.
 
 </dd>
 </dl>
@@ -756,11 +758,10 @@ Creates a new media item from a URL or as an empty placeholder
 
 ```typescript
 await client.media.create({
-    url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-    folder: "examples/cartoons",
-    filename: "bunny.mp4",
+    title: "My Video Example",
+    alt: "An example video used to demonstrate the ittybit API",
     metadata: {
-        credit: "gtv-videos-bucket",
+        customKey2: "a different custom value",
     },
 });
 ```
@@ -809,7 +810,7 @@ await client.media.create({
 <dl>
 <dd>
 
-Retrieves a specific media item by its ID
+Retrieves the media object for a media with the given ID.
 
 </dd>
 </dl>
@@ -872,7 +873,7 @@ await client.media.get("id");
 <dl>
 <dd>
 
-Deletes a specific media item by its ID
+Permanently removes a media object from the system. This action cannot be undone.
 
 </dd>
 </dl>
@@ -935,7 +936,7 @@ await client.media.delete("id");
 <dl>
 <dd>
 
-Updates specific fields of a media item by its ID. Only the fields provided in the request body will be updated.
+Updates a media object's `title`, `alt`, or `metadata`. Only the specified fields will be updated.
 
 </dd>
 </dl>
@@ -951,7 +952,13 @@ Updates specific fields of a media item by its ID. Only the fields provided in t
 <dd>
 
 ```typescript
-await client.media.update("id");
+await client.media.update("id", {
+    title: "Updated Video Example",
+    alt: "An updated example video used to demonstrate the ittybit API",
+    metadata: {
+        customKey2: "a different custom value",
+    },
+});
 ```
 
 </dd>
@@ -1262,7 +1269,7 @@ await client.tasks.get("id");
 <dl>
 <dd>
 
-Creates a cryptographically signed URL that provides temporary and restricted access to a file. The URL can expire after a specified time and be limited to specific HTTP methods.
+You can use signatures to create signed URLs which grant access to your project's resources, without revealing your project's API key. URLs can expire after a specified time and be limited to HTTP `GET` method for read-only access, or HTTP `PUT` method for client-side uploads.
 
 </dd>
 </dl>
@@ -1280,9 +1287,9 @@ Creates a cryptographically signed URL that provides temporary and restricted ac
 ```typescript
 await client.signatures.create({
     filename: "video.mp4",
-    folder: "private/user_123",
+    folder: "example",
     expiry: 1735689600,
-    method: "get",
+    method: "put",
 });
 ```
 

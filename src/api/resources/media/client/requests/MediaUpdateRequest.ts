@@ -4,11 +4,16 @@
 
 /**
  * @example
- *     {}
+ *     {
+ *         title: "Updated Video Example",
+ *         alt: "An updated example video used to demonstrate the ittybit API",
+ *         metadata: {
+ *             "customKey2": "a different custom value"
+ *         }
+ *     }
  */
 export interface MediaUpdateRequest {
-    /** New title for the media item. */
     title?: string;
-    /** New metadata object for the media item. This will replace the existing metadata. */
+    alt?: string;
     metadata?: Record<string, unknown>;
 }

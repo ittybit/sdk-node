@@ -3,18 +3,11 @@
  */
 
 export interface Signature {
-    /** Domain of the signed URL */
     domain: string;
-    /** Filename of the signed file */
     filename: string;
-    /** Folder of the signed file */
     folder?: string;
-    /** Expiry timestamp of the signed URL */
     expiry: number;
-    /** HTTP method for the signed URL */
     method: string;
-    /** Generated signature for the signed URL */
     signature: string;
-    /** Generated signed URL */
     url: string;
 }

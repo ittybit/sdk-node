@@ -5,24 +5,14 @@
 import * as Ittybit from "../index";
 
 export interface TaskSummary {
-    /** Unique identifier for the task. */
     id: string;
-    /** Object type, always 'task'. */
     object: string;
-    /** The type of operation the task performs. */
     kind: Ittybit.TaskSummaryKind;
-    /** Current status of the task. */
     status: Ittybit.TaskSummaryStatus;
-    /** Task progress percentage. */
     progress?: number;
-    /** Error message if the task failed. */
     error?: string;
-    /** ID of the entity that created the task (e.g., user ID, automation ID). */
     created_by?: string;
-    /** Timestamp when the task was created. */
     created: string;
-    /** Timestamp when the task was last updated. */
     updated: string;
-    /** ID of the parent task if this is part of a workflow. */
     parent_id?: string;
 }

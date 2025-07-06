@@ -7,5 +7,6 @@ import * as Ittybit from "../index";
 export interface AutomationResponse {
     meta?: Ittybit.Meta | undefined;
     data?: Ittybit.Automation;
+    error?: Ittybit.Error_;
     links?: Ittybit.Links;
 }

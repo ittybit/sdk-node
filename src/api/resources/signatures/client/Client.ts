@@ -34,26 +34,23 @@ export declare namespace Signatures {
 }
 
 /**
- * Generate signed URLs
+ * You can use the `/signatures` endpoint to generate signed URLs for files.
  */
 export class Signatures {
     constructor(protected readonly _options: Signatures.Options) {}
 
     /**
-     * Creates a cryptographically signed URL that provides temporary and restricted access to a file. The URL can expire after a specified time and be limited to specific HTTP methods.
+     * You can use signatures to create signed URLs which grant access to your project's resources, without revealing your project's API key. URLs can expire after a specified time and be limited to HTTP `GET` method for read-only access, or HTTP `PUT` method for client-side uploads.
      *
      * @param {Ittybit.SignaturesCreateRequest} request
      * @param {Signatures.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link Ittybit.BadRequestError}
-     * @throws {@link Ittybit.UnauthorizedError}
-     *
      * @example
      *     await client.signatures.create({
      *         filename: "video.mp4",
-     *         folder: "private/user_123",
+     *         folder: "example",
      *         expiry: 1735689600,
-     *         method: "get"
+     *         method: "put"
      *     })
      */
     public create(
@@ -83,8 +80,8 @@ export class Signatures {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.4",
-                "User-Agent": "@ittybit/sdk/0.7.4",
+                "X-Fern-SDK-Version": "0.7.6",
+                "User-Agent": "@ittybit/sdk/0.7.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -101,24 +98,11 @@ export class Signatures {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Ittybit.BadRequestError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                case 401:
-                    throw new Ittybit.UnauthorizedError(
-                        _response.error.body as Ittybit.ErrorResponse,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.IttybitError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         switch (_response.error.reason) {

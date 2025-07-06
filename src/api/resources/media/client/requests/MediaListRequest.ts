@@ -7,8 +7,5 @@
  *     {}
  */
 export interface MediaListRequest {
-    /**
-     * Number of media items to return per page.
-     */
     limit?: number;
 }

@@ -7,5 +7,6 @@ import * as Ittybit from "../index";
 export interface MediaResponse {
     meta?: Ittybit.Meta | undefined;
     data?: Ittybit.Media;
+    error?: Ittybit.Error_;
     links?: Ittybit.Links;
 }

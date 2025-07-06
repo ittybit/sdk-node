@@ -6,6 +6,7 @@ import * as Ittybit from "../index";
 
 export interface ConfirmationResponse {
     meta?: Ittybit.Meta | undefined;
-    data?: Ittybit.ConfirmationResponseData;
+    data?: Ittybit.Confirmation;
+    error?: Ittybit.Error_;
     links?: Ittybit.Links;
 }
