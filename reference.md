@@ -65,7 +65,7 @@ await client.automations.list();
 </dl>
 </details>
 
-<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">create</a>() -> Ittybit.AutomationResponse</code></summary>
+<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">create</a>({ ...params }) -> Ittybit.AutomationResponse</code></summary>
 <dl>
 <dd>
 
@@ -93,7 +93,33 @@ Creates a new automation.
 <dd>
 
 ```typescript
-await client.automations.create();
+await client.automations.create({
+    name: "My Example Automation",
+    description: "This workflow will run whenever new media is created.",
+    trigger: {
+        kind: "event",
+        event: "media.created",
+    },
+    workflow: [
+        {
+            kind: "description",
+        },
+        {
+            kind: "image",
+            ref: "thumbnail",
+        },
+        {
+            kind: "conditions",
+            next: [
+                {
+                    kind: "subtitle",
+                    ref: "subtitle",
+                },
+            ],
+        },
+    ],
+    status: "active",
+});
 ```
 
 </dd>
@@ -105,6 +131,14 @@ await client.automations.create();
 
 <dl>
 <dd>
+
+<dl>
+<dd>
+
+**request:** `Ittybit.AutomationsCreateRequest`
+
+</dd>
+</dl>
 
 <dl>
 <dd>

@@ -23,7 +23,33 @@ Instantiate and use the client with the following:
 import { IttybitClient } from "@ittybit/sdk";
 
 const client = new IttybitClient({ token: "YOUR_TOKEN", version: "YOUR_VERSION" });
-await client.automations.create();
+await client.automations.create({
+    name: "My Example Automation",
+    description: "This workflow will run whenever new media is created.",
+    trigger: {
+        kind: "event",
+        event: "media.created",
+    },
+    workflow: [
+        {
+            kind: "description",
+        },
+        {
+            kind: "image",
+            ref: "thumbnail",
+        },
+        {
+            kind: "conditions",
+            next: [
+                {
+                    kind: "subtitle",
+                    ref: "subtitle",
+                },
+            ],
+        },
+    ],
+    status: "active",
+});
 ```
 
 ## Request And Response Types

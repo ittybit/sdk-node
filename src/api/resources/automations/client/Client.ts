@@ -81,8 +81,8 @@ export class Automations {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.8.1",
-                "User-Agent": "@ittybit/sdk/0.8.1",
+                "X-Fern-SDK-Version": "0.8.2",
+                "User-Agent": "@ittybit/sdk/0.8.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -126,16 +126,41 @@ export class Automations {
     /**
      * Creates a new automation.
      *
+     * @param {Ittybit.AutomationsCreateRequest} request
      * @param {Automations.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @example
-     *     await client.automations.create()
+     *     await client.automations.create({
+     *         name: "My Example Automation",
+     *         description: "This workflow will run whenever new media is created.",
+     *         trigger: {
+     *             kind: "event",
+     *             event: "media.created"
+     *         },
+     *         workflow: [{
+     *                 kind: "description"
+     *             }, {
+     *                 kind: "image",
+     *                 ref: "thumbnail"
+     *             }, {
+     *                 kind: "conditions",
+     *                 next: [{
+     *                         kind: "subtitle",
+     *                         ref: "subtitle"
+     *                     }]
+     *             }],
+     *         status: "active"
+     *     })
      */
-    public create(requestOptions?: Automations.RequestOptions): core.HttpResponsePromise<Ittybit.AutomationResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__create(requestOptions));
+    public create(
+        request: Ittybit.AutomationsCreateRequest,
+        requestOptions?: Automations.RequestOptions,
+    ): core.HttpResponsePromise<Ittybit.AutomationResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
+        request: Ittybit.AutomationsCreateRequest,
         requestOptions?: Automations.RequestOptions,
     ): Promise<core.WithRawResponse<Ittybit.AutomationResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -154,14 +179,15 @@ export class Automations {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.8.1",
-                "User-Agent": "@ittybit/sdk/0.8.1",
+                "X-Fern-SDK-Version": "0.8.2",
+                "User-Agent": "@ittybit/sdk/0.8.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
+            body: request,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -231,8 +257,8 @@ export class Automations {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.8.1",
-                "User-Agent": "@ittybit/sdk/0.8.1",
+                "X-Fern-SDK-Version": "0.8.2",
+                "User-Agent": "@ittybit/sdk/0.8.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -308,8 +334,8 @@ export class Automations {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.8.1",
-                "User-Agent": "@ittybit/sdk/0.8.1",
+                "X-Fern-SDK-Version": "0.8.2",
+                "User-Agent": "@ittybit/sdk/0.8.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -405,8 +431,8 @@ export class Automations {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.8.1",
-                "User-Agent": "@ittybit/sdk/0.8.1",
+                "X-Fern-SDK-Version": "0.8.2",
+                "User-Agent": "@ittybit/sdk/0.8.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
