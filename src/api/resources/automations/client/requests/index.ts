@@ -1,3 +1,3 @@
-export { type AutomationsListRequest } from "./AutomationsListRequest";
-export { type AutomationsCreateRequest } from "./AutomationsCreateRequest";
-export { type AutomationsUpdateRequest } from "./AutomationsUpdateRequest";
+export { type AutomationsListRequest } from "./AutomationsListRequest.js";
+export { type AutomationsCreateRequest } from "./AutomationsCreateRequest.js";
+export { type AutomationsUpdateRequest } from "./AutomationsUpdateRequest.js";

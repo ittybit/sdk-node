@@ -7,5 +7,6 @@
  *     {}
  */
 export interface MediaListRequest {
+    page?: number;
     limit?: number;
 }

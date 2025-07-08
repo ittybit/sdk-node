@@ -1,1 +1,1 @@
-export { type TasksListRequest } from "./TasksListRequest";
+export { type TasksListRequest } from "./TasksListRequest.js";

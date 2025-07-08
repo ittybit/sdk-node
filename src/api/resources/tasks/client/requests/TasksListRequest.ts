@@ -7,5 +7,6 @@
  *     {}
  */
 export interface TasksListRequest {
+    page?: number;
     limit?: number;
 }

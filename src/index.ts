@@ -1,4 +1,4 @@
-export * as Ittybit from "./api";
-export { IttybitClient } from "./Client";
-export { IttybitEnvironment } from "./environments";
-export { IttybitError, IttybitTimeoutError } from "./errors";
+export * as Ittybit from "./api/index.js";
+export { IttybitError, IttybitTimeoutError } from "./errors/index.js";
+export { IttybitClient } from "./Client.js";
+export { IttybitEnvironment } from "./environments.js";

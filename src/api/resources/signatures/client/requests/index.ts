@@ -1,1 +1,1 @@
-export { type SignaturesCreateRequest } from "./SignaturesCreateRequest";
+export { type SignaturesCreateRequest } from "./SignaturesCreateRequest.js";

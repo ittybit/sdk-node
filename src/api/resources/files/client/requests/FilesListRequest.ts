@@ -7,5 +7,6 @@
  *     {}
  */
 export interface FilesListRequest {
+    page?: number;
     limit?: number;
 }

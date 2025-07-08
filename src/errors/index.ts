@@ -1,2 +1,2 @@
-export { IttybitError } from "./IttybitError";
-export { IttybitTimeoutError } from "./IttybitTimeoutError";
+export { IttybitError } from "./IttybitError.js";
+export { IttybitTimeoutError } from "./IttybitTimeoutError.js";

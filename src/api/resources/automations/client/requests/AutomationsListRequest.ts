@@ -7,5 +7,6 @@
  *     {}
  */
 export interface AutomationsListRequest {
+    page?: number;
     limit?: number;
 }

@@ -182,7 +182,7 @@ Retrieve the automation object for a automation with the given ID.
 <dd>
 
 ```typescript
-await client.automations.get("id");
+await client.automations.get("auto_abcdefgh1234");
 ```
 
 </dd>
@@ -245,7 +245,7 @@ Permanently removes an automation from the system. This action cannot be undone.
 <dd>
 
 ```typescript
-await client.automations.delete("id");
+await client.automations.delete("auto_abcdefgh1234");
 ```
 
 </dd>
@@ -308,7 +308,7 @@ Updates an automation's `name`, `description`, `trigger`, `workflow`, or `status
 <dd>
 
 ```typescript
-await client.automations.update("id", {
+await client.automations.update("auto_abcdefgh1234", {
     name: "My Updated Automation",
     workflow: [
         {
@@ -538,7 +538,7 @@ Retrieve the file object for a file with the given ID.
 <dd>
 
 ```typescript
-await client.files.get("id");
+await client.files.get("file_abcdefgh1234");
 ```
 
 </dd>
@@ -601,7 +601,7 @@ Permanently removes a file from the system. This action cannot be undone.
 <dd>
 
 ```typescript
-await client.files.delete("id");
+await client.files.delete("file_abcdefgh1234");
 ```
 
 </dd>
@@ -664,7 +664,7 @@ Update a file's `filename`, `folder`, `ref`, or `metadata`. Only the specified f
 <dd>
 
 ```typescript
-await client.files.update("id", {
+await client.files.update("file_abcdefgh1234", {
     folder: "updated/folder",
     filename: "new_filename.mp4",
     metadata: {
@@ -875,7 +875,7 @@ Retrieves the media object for a media with the given ID.
 <dd>
 
 ```typescript
-await client.media.get("id");
+await client.media.get("med_abcdefgh1234");
 ```
 
 </dd>
@@ -938,7 +938,7 @@ Permanently removes a media object from the system. This action cannot be undone
 <dd>
 
 ```typescript
-await client.media.delete("id");
+await client.media.delete("med_abcdefgh1234");
 ```
 
 </dd>
@@ -1001,7 +1001,7 @@ Updates a media object's `title`, `alt`, or `metadata`. Only the specified field
 <dd>
 
 ```typescript
-await client.media.update("id", {
+await client.media.update("med_abcdefgh1234", {
     title: "Updated Video Example",
     alt: "An updated example video used to demonstrate the ittybit API",
     metadata: {
@@ -1197,7 +1197,7 @@ Retrieves the task object for a task with the given ID.
 <dd>
 
 ```typescript
-await client.tasks.get("id");
+await client.tasks.get("task_abcdefgh1234");
 ```
 
 </dd>
