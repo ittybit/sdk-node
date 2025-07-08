@@ -6,7 +6,7 @@ import * as Ittybit from "../index";
 
 export interface Automation {
     id: string;
-    name: string;
+    name?: string;
     description?: string;
     trigger: Ittybit.AutomationTrigger;
     workflow: Ittybit.WorkflowTaskStep[];

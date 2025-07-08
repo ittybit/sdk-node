@@ -7,13 +7,5 @@ import * as Ittybit from "../index";
 export interface WorkflowTaskStep {
     kind: Ittybit.WorkflowTaskStepKind;
     ref?: string;
-    format?: string;
-    start?: number;
-    end?: number;
-    width?: number;
-    height?: number;
-    fit?: string;
-    background?: string;
-    quality?: number;
-    next?: unknown[];
+    next?: Ittybit.WorkflowTaskStepNextItem[];
 }

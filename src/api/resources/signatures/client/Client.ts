@@ -13,9 +13,9 @@ export declare namespace Signatures {
         environment?: core.Supplier<environments.IttybitEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token: core.Supplier<core.BearerToken>;
+        token?: core.Supplier<core.BearerToken | undefined>;
         /** Override the ACCEPT_VERSION header */
-        version?: core.Supplier<string | undefined>;
+        version?: core.Supplier<number | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -27,7 +27,7 @@ export declare namespace Signatures {
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
         /** Override the ACCEPT_VERSION header */
-        version?: string | undefined;
+        version?: number | undefined;
         /** Additional headers to include in the request. */
         headers?: Record<string, string>;
     }
@@ -37,7 +37,7 @@ export declare namespace Signatures {
  * You can use the `/signatures` endpoint to generate signed URLs for files.
  */
 export class Signatures {
-    constructor(protected readonly _options: Signatures.Options) {}
+    constructor(protected readonly _options: Signatures.Options = {}) {}
 
     /**
      * You can use signatures to create signed URLs which grant access to your project's resources, without revealing your project's API key. URLs can expire after a specified time and be limited to HTTP `GET` method for read-only access, or HTTP `PUT` method for client-side uploads.
@@ -76,12 +76,12 @@ export class Signatures {
                 Authorization: await this._getAuthorizationHeader(),
                 ACCEPT_VERSION:
                     (await core.Supplier.get(this._options.version)) != null
-                        ? await core.Supplier.get(this._options.version)
+                        ? (await core.Supplier.get(this._options.version)).toString()
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.8",
-                "User-Agent": "@ittybit/sdk/0.7.8",
+                "X-Fern-SDK-Version": "0.8.0",
+                "User-Agent": "@ittybit/sdk/0.8.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -122,7 +122,12 @@ export class Signatures {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string> {
-        return `Bearer ${await core.Supplier.get(this._options.token)}`;
+    protected async _getAuthorizationHeader(): Promise<string | undefined> {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
+
+        return undefined;
     }
 }

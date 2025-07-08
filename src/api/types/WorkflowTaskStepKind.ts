@@ -9,15 +9,13 @@ export type WorkflowTaskStepKind =
     | "chapters"
     | "subtitles"
     | "thumbnails"
+    | "nsfw"
     | "speech"
     | "description"
-    | "nsfw"
-    | "prompt"
     | "outline"
-    | "http"
-    | "ingest"
-    | "workflow"
-    | "conditions";
+    | "prompt"
+    | "conditions"
+    | "http";
 export const WorkflowTaskStepKind = {
     Video: "video",
     Image: "image",
@@ -25,13 +23,11 @@ export const WorkflowTaskStepKind = {
     Chapters: "chapters",
     Subtitles: "subtitles",
     Thumbnails: "thumbnails",
+    Nsfw: "nsfw",
     Speech: "speech",
     Description: "description",
-    Nsfw: "nsfw",
-    Prompt: "prompt",
     Outline: "outline",
-    Http: "http",
-    Ingest: "ingest",
-    Workflow: "workflow",
+    Prompt: "prompt",
     Conditions: "conditions",
+    Http: "http",
 } as const;

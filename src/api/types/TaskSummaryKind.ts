@@ -3,35 +3,35 @@
  */
 
 export type TaskSummaryKind =
+    | "ingest"
     | "video"
     | "image"
     | "audio"
     | "chapters"
     | "subtitles"
     | "thumbnails"
+    | "nsfw"
     | "speech"
     | "description"
-    | "nsfw"
-    | "prompt"
     | "outline"
-    | "http"
-    | "ingest"
+    | "prompt"
     | "workflow"
-    | "conditions";
+    | "conditions"
+    | "http";
 export const TaskSummaryKind = {
+    Ingest: "ingest",
     Video: "video",
     Image: "image",
     Audio: "audio",
     Chapters: "chapters",
     Subtitles: "subtitles",
     Thumbnails: "thumbnails",
+    Nsfw: "nsfw",
     Speech: "speech",
     Description: "description",
-    Nsfw: "nsfw",
-    Prompt: "prompt",
     Outline: "outline",
-    Http: "http",
-    Ingest: "ingest",
+    Prompt: "prompt",
     Workflow: "workflow",
     Conditions: "conditions",
+    Http: "http",
 } as const;

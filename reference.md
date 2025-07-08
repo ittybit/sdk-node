@@ -2,7 +2,7 @@
 
 ## Automations
 
-<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">list</a>() -> Ittybit.AutomationListResponse</code></summary>
+<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">list</a>({ ...params }) -> Ittybit.AutomationListResponse</code></summary>
 <dl>
 <dd>
 
@@ -14,7 +14,7 @@
 <dl>
 <dd>
 
-Retrieves a list of all automations for the current project
+Retrieves a paginated list of all automations for the current project
 
 </dd>
 </dl>
@@ -46,6 +46,14 @@ await client.automations.list();
 <dl>
 <dd>
 
+**request:** `Ittybit.AutomationsListRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `Automations.RequestOptions`
 
 </dd>
@@ -69,7 +77,7 @@ await client.automations.list();
 <dl>
 <dd>
 
-Creates a new automation for the current project
+Creates a new automation.
 
 </dd>
 </dl>
@@ -124,7 +132,7 @@ await client.automations.create();
 <dl>
 <dd>
 
-Retrieves a specific automation by its ID
+Retrieve the automation object for a automation with the given ID.
 
 </dd>
 </dl>
@@ -175,24 +183,9 @@ await client.automations.get("id");
 </dl>
 </details>
 
-<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">update</a>(id, { ...params }) -> Ittybit.AutomationResponse</code></summary>
+<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">update</a>(id) -> void</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Updates an existing automation by its ID
-
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -203,24 +196,7 @@ Updates an existing automation by its ID
 <dd>
 
 ```typescript
-await client.automations.update("id", {
-    name: "Updated Transcoder Example",
-    trigger: {
-        event: "upload.completed",
-        conditions: [
-            {
-                prop: "file.type",
-                value: "image/*",
-            },
-        ],
-    },
-    workflow: [
-        {
-            kind: "image",
-            format: "webp",
-        },
-    ],
-});
+await client.automations.update("id");
 ```
 
 </dd>
@@ -244,14 +220,6 @@ await client.automations.update("id", {
 <dl>
 <dd>
 
-**request:** `Ittybit.AutomationsUpdateRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
 **requestOptions:** `Automations.RequestOptions`
 
 </dd>
@@ -263,7 +231,7 @@ await client.automations.update("id", {
 </dl>
 </details>
 
-<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">delete</a>(id) -> void</code></summary>
+<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">delete</a>(id) -> Ittybit.ConfirmationResponse</code></summary>
 <dl>
 <dd>
 
@@ -275,7 +243,7 @@ await client.automations.update("id", {
 <dl>
 <dd>
 
-Deletes an automation by its ID
+Permanently removes an automation from the system. This action cannot be undone.
 
 </dd>
 </dl>
@@ -308,6 +276,101 @@ await client.automations.delete("id");
 <dd>
 
 **id:** `string`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Automations.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">updateAutomation</a>(id, { ...params }) -> Ittybit.AutomationResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates an automation's `name`, `description`, `trigger`, `workflow`, or `status`. Only the specified fields will be updated.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.automations.updateAutomation("auto_abcdefgh1234", {
+    name: "My Updated Automation",
+    workflow: [
+        {
+            kind: "nsfw",
+        },
+        {
+            kind: "description",
+        },
+        {
+            kind: "image",
+            ref: "big_thumbnail",
+        },
+        {
+            kind: "conditions",
+            next: [
+                {
+                    kind: "subtitle",
+                    ref: "subtitle",
+                },
+            ],
+        },
+    ],
+    status: "active",
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Ittybit.UpdateAutomationRequest`
 
 </dd>
 </dl>
@@ -741,7 +804,7 @@ await client.media.list();
 <dl>
 <dd>
 
-Creates a new media item.
+Creates a new media item. See [Media Object](/docs/media) for more details.
 
 </dd>
 </dl>
@@ -1007,21 +1070,6 @@ await client.media.update("id", {
 <dl>
 <dd>
 
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Retrieves a list of tasks for the project, optionally filtered by status or kind.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
 #### 🔌 Usage
 
 <dl>
@@ -1078,7 +1126,7 @@ await client.tasks.list();
 <dl>
 <dd>
 
-Creates a new processing task (e.g., ingest, video transcode, speech analysis) or a workflow task.
+Creates a new task item. See [Tasks](/docs/tasks) for detailed coverage of all available props and values.
 
 </dd>
 </dl>
@@ -1095,13 +1143,11 @@ Creates a new processing task (e.g., ingest, video transcode, speech analysis) o
 
 ```typescript
 await client.tasks.create({
-    kind: "ingest",
-    url: "https://example.com/some_video.mov",
-    input: {
-        options: {
-            filename: "custom_name.mov",
-        },
-    },
+    file_id: "file_abcdefgh1234",
+    kind: "image",
+    width: 320,
+    format: "png",
+    ref: "thumbnail",
 });
 ```
 
@@ -1118,7 +1164,70 @@ await client.tasks.create({
 <dl>
 <dd>
 
-**request:** `Ittybit.TasksCreateRequest`
+**request:** `unknown`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Tasks.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.tasks.<a href="/src/api/resources/tasks/client/Client.ts">get</a>(id) -> Ittybit.TaskResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieves the task object for a task with the given ID.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.tasks.get("id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string`
 
 </dd>
 </dl>
@@ -1177,69 +1286,6 @@ await client.tasks.getTaskConfig();
 
 <dl>
 <dd>
-
-<dl>
-<dd>
-
-**requestOptions:** `Tasks.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.tasks.<a href="/src/api/resources/tasks/client/Client.ts">get</a>(id) -> Ittybit.TaskResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Retrieves the details of a specific task by its ID.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.tasks.get("id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `string`
-
-</dd>
-</dl>
 
 <dl>
 <dd>

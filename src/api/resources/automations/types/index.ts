@@ -1,2 +1,2 @@
-export * from "./AutomationsUpdateRequestTriggerConditionsItem";
-export * from "./AutomationsUpdateRequestTrigger";
+export * from "./UpdateAutomationRequestTrigger";
+export * from "./UpdateAutomationRequestStatus";

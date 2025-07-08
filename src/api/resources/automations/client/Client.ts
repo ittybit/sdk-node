@@ -13,9 +13,9 @@ export declare namespace Automations {
         environment?: core.Supplier<environments.IttybitEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token: core.Supplier<core.BearerToken>;
+        token?: core.Supplier<core.BearerToken | undefined>;
         /** Override the ACCEPT_VERSION header */
-        version?: core.Supplier<string | undefined>;
+        version?: core.Supplier<number | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -27,7 +27,7 @@ export declare namespace Automations {
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
         /** Override the ACCEPT_VERSION header */
-        version?: string | undefined;
+        version?: number | undefined;
         /** Additional headers to include in the request. */
         headers?: Record<string, string>;
     }
@@ -37,23 +37,34 @@ export declare namespace Automations {
  * You can use the `/automations` and `/automations/{id}` endpoints to manage automated workflows.
  */
 export class Automations {
-    constructor(protected readonly _options: Automations.Options) {}
+    constructor(protected readonly _options: Automations.Options = {}) {}
 
     /**
-     * Retrieves a list of all automations for the current project
+     * Retrieves a paginated list of all automations for the current project
      *
+     * @param {Ittybit.AutomationsListRequest} request
      * @param {Automations.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @example
      *     await client.automations.list()
      */
-    public list(requestOptions?: Automations.RequestOptions): core.HttpResponsePromise<Ittybit.AutomationListResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__list(requestOptions));
+    public list(
+        request: Ittybit.AutomationsListRequest = {},
+        requestOptions?: Automations.RequestOptions,
+    ): core.HttpResponsePromise<Ittybit.AutomationListResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
+        request: Ittybit.AutomationsListRequest = {},
         requestOptions?: Automations.RequestOptions,
     ): Promise<core.WithRawResponse<Ittybit.AutomationListResponse>> {
+        const { limit } = request;
+        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
+        if (limit != null) {
+            _queryParams["limit"] = limit.toString();
+        }
+
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -66,17 +77,18 @@ export class Automations {
                 Authorization: await this._getAuthorizationHeader(),
                 ACCEPT_VERSION:
                     (await core.Supplier.get(this._options.version)) != null
-                        ? await core.Supplier.get(this._options.version)
+                        ? (await core.Supplier.get(this._options.version)).toString()
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.8",
-                "User-Agent": "@ittybit/sdk/0.7.8",
+                "X-Fern-SDK-Version": "0.8.0",
+                "User-Agent": "@ittybit/sdk/0.8.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
             },
             contentType: "application/json",
+            queryParameters: _queryParams,
             requestType: "json",
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
@@ -112,7 +124,7 @@ export class Automations {
     }
 
     /**
-     * Creates a new automation for the current project
+     * Creates a new automation.
      *
      * @param {Automations.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -138,12 +150,12 @@ export class Automations {
                 Authorization: await this._getAuthorizationHeader(),
                 ACCEPT_VERSION:
                     (await core.Supplier.get(this._options.version)) != null
-                        ? await core.Supplier.get(this._options.version)
+                        ? (await core.Supplier.get(this._options.version)).toString()
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.8",
-                "User-Agent": "@ittybit/sdk/0.7.8",
+                "X-Fern-SDK-Version": "0.8.0",
+                "User-Agent": "@ittybit/sdk/0.8.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -184,7 +196,7 @@ export class Automations {
     }
 
     /**
-     * Retrieves a specific automation by its ID
+     * Retrieve the automation object for a automation with the given ID.
      *
      * @param {string} id
      * @param {Automations.RequestOptions} requestOptions - Request-specific configuration.
@@ -215,12 +227,12 @@ export class Automations {
                 Authorization: await this._getAuthorizationHeader(),
                 ACCEPT_VERSION:
                     (await core.Supplier.get(this._options.version)) != null
-                        ? await core.Supplier.get(this._options.version)
+                        ? (await core.Supplier.get(this._options.version)).toString()
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.8",
-                "User-Agent": "@ittybit/sdk/0.7.8",
+                "X-Fern-SDK-Version": "0.8.0",
+                "User-Agent": "@ittybit/sdk/0.8.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -261,41 +273,20 @@ export class Automations {
     }
 
     /**
-     * Updates an existing automation by its ID
-     *
      * @param {string} id
-     * @param {Ittybit.AutomationsUpdateRequest} request
      * @param {Automations.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @example
-     *     await client.automations.update("id", {
-     *         name: "Updated Transcoder Example",
-     *         trigger: {
-     *             event: "upload.completed",
-     *             conditions: [{
-     *                     prop: "file.type",
-     *                     value: "image/*"
-     *                 }]
-     *         },
-     *         workflow: [{
-     *                 kind: "image",
-     *                 format: "webp"
-     *             }]
-     *     })
+     *     await client.automations.update("id")
      */
-    public update(
-        id: string,
-        request: Ittybit.AutomationsUpdateRequest,
-        requestOptions?: Automations.RequestOptions,
-    ): core.HttpResponsePromise<Ittybit.AutomationResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__update(id, request, requestOptions));
+    public update(id: string, requestOptions?: Automations.RequestOptions): core.HttpResponsePromise<void> {
+        return core.HttpResponsePromise.fromPromise(this.__update(id, requestOptions));
     }
 
     private async __update(
         id: string,
-        request: Ittybit.AutomationsUpdateRequest,
         requestOptions?: Automations.RequestOptions,
-    ): Promise<core.WithRawResponse<Ittybit.AutomationResponse>> {
+    ): Promise<core.WithRawResponse<void>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -308,12 +299,186 @@ export class Automations {
                 Authorization: await this._getAuthorizationHeader(),
                 ACCEPT_VERSION:
                     (await core.Supplier.get(this._options.version)) != null
-                        ? await core.Supplier.get(this._options.version)
+                        ? (await core.Supplier.get(this._options.version)).toString()
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.8",
-                "User-Agent": "@ittybit/sdk/0.7.8",
+                "X-Fern-SDK-Version": "0.8.0",
+                "User-Agent": "@ittybit/sdk/0.8.0",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: undefined, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.IttybitError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.IttybitTimeoutError("Timeout exceeded when calling PUT /automations/{id}.");
+            case "unknown":
+                throw new errors.IttybitError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Permanently removes an automation from the system. This action cannot be undone.
+     *
+     * @param {string} id
+     * @param {Automations.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.automations.delete("id")
+     */
+    public delete(
+        id: string,
+        requestOptions?: Automations.RequestOptions,
+    ): core.HttpResponsePromise<Ittybit.ConfirmationResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+    }
+
+    private async __delete(
+        id: string,
+        requestOptions?: Automations.RequestOptions,
+    ): Promise<core.WithRawResponse<Ittybit.ConfirmationResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.IttybitEnvironment.Default,
+                `automations/${encodeURIComponent(id)}`,
+            ),
+            method: "DELETE",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? (await core.Supplier.get(this._options.version)).toString()
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@ittybit/sdk",
+                "X-Fern-SDK-Version": "0.8.0",
+                "User-Agent": "@ittybit/sdk/0.8.0",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Ittybit.ConfirmationResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.IttybitError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.IttybitTimeoutError("Timeout exceeded when calling DELETE /automations/{id}.");
+            case "unknown":
+                throw new errors.IttybitError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Updates an automation's `name`, `description`, `trigger`, `workflow`, or `status`. Only the specified fields will be updated.
+     *
+     * @param {string} id
+     * @param {Ittybit.UpdateAutomationRequest} request
+     * @param {Automations.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.automations.updateAutomation("auto_abcdefgh1234", {
+     *         name: "My Updated Automation",
+     *         workflow: [{
+     *                 kind: "nsfw"
+     *             }, {
+     *                 kind: "description"
+     *             }, {
+     *                 kind: "image",
+     *                 ref: "big_thumbnail"
+     *             }, {
+     *                 kind: "conditions",
+     *                 next: [{
+     *                         kind: "subtitle",
+     *                         ref: "subtitle"
+     *                     }]
+     *             }],
+     *         status: "active"
+     *     })
+     */
+    public updateAutomation(
+        id: string,
+        request: Ittybit.UpdateAutomationRequest = {},
+        requestOptions?: Automations.RequestOptions,
+    ): core.HttpResponsePromise<Ittybit.AutomationResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__updateAutomation(id, request, requestOptions));
+    }
+
+    private async __updateAutomation(
+        id: string,
+        request: Ittybit.UpdateAutomationRequest = {},
+        requestOptions?: Automations.RequestOptions,
+    ): Promise<core.WithRawResponse<Ittybit.AutomationResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.IttybitEnvironment.Default,
+                `automations/${encodeURIComponent(id)}`,
+            ),
+            method: "PATCH",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? (await core.Supplier.get(this._options.version)).toString()
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@ittybit/sdk",
+                "X-Fern-SDK-Version": "0.8.0",
+                "User-Agent": "@ittybit/sdk/0.8.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -345,7 +510,7 @@ export class Automations {
                     rawResponse: _response.rawResponse,
                 });
             case "timeout":
-                throw new errors.IttybitTimeoutError("Timeout exceeded when calling PUT /automations/{id}.");
+                throw new errors.IttybitTimeoutError("Timeout exceeded when calling PATCH /automations/{id}.");
             case "unknown":
                 throw new errors.IttybitError({
                     message: _response.error.errorMessage,
@@ -354,81 +519,12 @@ export class Automations {
         }
     }
 
-    /**
-     * Deletes an automation by its ID
-     *
-     * @param {string} id
-     * @param {Automations.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.automations.delete("id")
-     */
-    public delete(id: string, requestOptions?: Automations.RequestOptions): core.HttpResponsePromise<void> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
-    }
-
-    private async __delete(
-        id: string,
-        requestOptions?: Automations.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: urlJoin(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.IttybitEnvironment.Default,
-                `automations/${encodeURIComponent(id)}`,
-            ),
-            method: "DELETE",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                ACCEPT_VERSION:
-                    (await core.Supplier.get(this._options.version)) != null
-                        ? await core.Supplier.get(this._options.version)
-                        : undefined,
-                "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.8",
-                "User-Agent": "@ittybit/sdk/0.7.8",
-                "X-Fern-Runtime": core.RUNTIME.type,
-                "X-Fern-Runtime-Version": core.RUNTIME.version,
-                ...requestOptions?.headers,
-            },
-            contentType: "application/json",
-            requestType: "json",
-            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
-            maxRetries: requestOptions?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-        });
-        if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+    protected async _getAuthorizationHeader(): Promise<string | undefined> {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
         }
 
-        if (_response.error.reason === "status-code") {
-            throw new errors.IttybitError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.IttybitError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.IttybitTimeoutError("Timeout exceeded when calling DELETE /automations/{id}.");
-            case "unknown":
-                throw new errors.IttybitError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
-    }
-
-    protected async _getAuthorizationHeader(): Promise<string> {
-        return `Bearer ${await core.Supplier.get(this._options.token)}`;
+        return undefined;
     }
 }

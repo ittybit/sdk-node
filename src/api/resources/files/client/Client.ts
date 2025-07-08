@@ -13,9 +13,9 @@ export declare namespace Files {
         environment?: core.Supplier<environments.IttybitEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token: core.Supplier<core.BearerToken>;
+        token?: core.Supplier<core.BearerToken | undefined>;
         /** Override the ACCEPT_VERSION header */
-        version?: core.Supplier<string | undefined>;
+        version?: core.Supplier<number | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -27,7 +27,7 @@ export declare namespace Files {
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
         /** Override the ACCEPT_VERSION header */
-        version?: string | undefined;
+        version?: number | undefined;
         /** Additional headers to include in the request. */
         headers?: Record<string, string>;
     }
@@ -37,7 +37,7 @@ export declare namespace Files {
  * You can use the `/files` and `/files/{id}` endpoints to manage individual file assets.
  */
 export class Files {
-    constructor(protected readonly _options: Files.Options) {}
+    constructor(protected readonly _options: Files.Options = {}) {}
 
     /**
      * Retrieves a paginated list of all files associated with the current project.
@@ -77,12 +77,12 @@ export class Files {
                 Authorization: await this._getAuthorizationHeader(),
                 ACCEPT_VERSION:
                     (await core.Supplier.get(this._options.version)) != null
-                        ? await core.Supplier.get(this._options.version)
+                        ? (await core.Supplier.get(this._options.version)).toString()
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.8",
-                "User-Agent": "@ittybit/sdk/0.7.8",
+                "X-Fern-SDK-Version": "0.8.0",
+                "User-Agent": "@ittybit/sdk/0.8.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -162,12 +162,12 @@ export class Files {
                 Authorization: await this._getAuthorizationHeader(),
                 ACCEPT_VERSION:
                     (await core.Supplier.get(this._options.version)) != null
-                        ? await core.Supplier.get(this._options.version)
+                        ? (await core.Supplier.get(this._options.version)).toString()
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.8",
-                "User-Agent": "@ittybit/sdk/0.7.8",
+                "X-Fern-SDK-Version": "0.8.0",
+                "User-Agent": "@ittybit/sdk/0.8.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -237,12 +237,12 @@ export class Files {
                 Authorization: await this._getAuthorizationHeader(),
                 ACCEPT_VERSION:
                     (await core.Supplier.get(this._options.version)) != null
-                        ? await core.Supplier.get(this._options.version)
+                        ? (await core.Supplier.get(this._options.version)).toString()
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.8",
-                "User-Agent": "@ittybit/sdk/0.7.8",
+                "X-Fern-SDK-Version": "0.8.0",
+                "User-Agent": "@ittybit/sdk/0.8.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -314,12 +314,12 @@ export class Files {
                 Authorization: await this._getAuthorizationHeader(),
                 ACCEPT_VERSION:
                     (await core.Supplier.get(this._options.version)) != null
-                        ? await core.Supplier.get(this._options.version)
+                        ? (await core.Supplier.get(this._options.version)).toString()
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.8",
-                "User-Agent": "@ittybit/sdk/0.7.8",
+                "X-Fern-SDK-Version": "0.8.0",
+                "User-Agent": "@ittybit/sdk/0.8.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -400,12 +400,12 @@ export class Files {
                 Authorization: await this._getAuthorizationHeader(),
                 ACCEPT_VERSION:
                     (await core.Supplier.get(this._options.version)) != null
-                        ? await core.Supplier.get(this._options.version)
+                        ? (await core.Supplier.get(this._options.version)).toString()
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.8",
-                "User-Agent": "@ittybit/sdk/0.7.8",
+                "X-Fern-SDK-Version": "0.8.0",
+                "User-Agent": "@ittybit/sdk/0.8.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -446,7 +446,12 @@ export class Files {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string> {
-        return `Bearer ${await core.Supplier.get(this._options.token)}`;
+    protected async _getAuthorizationHeader(): Promise<string | undefined> {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
+
+        return undefined;
     }
 }

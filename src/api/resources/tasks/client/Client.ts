@@ -13,9 +13,9 @@ export declare namespace Tasks {
         environment?: core.Supplier<environments.IttybitEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token: core.Supplier<core.BearerToken>;
+        token?: core.Supplier<core.BearerToken | undefined>;
         /** Override the ACCEPT_VERSION header */
-        version?: core.Supplier<string | undefined>;
+        version?: core.Supplier<number | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -27,7 +27,7 @@ export declare namespace Tasks {
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
         /** Override the ACCEPT_VERSION header */
-        version?: string | undefined;
+        version?: number | undefined;
         /** Additional headers to include in the request. */
         headers?: Record<string, string>;
     }
@@ -37,11 +37,9 @@ export declare namespace Tasks {
  * You can use the `/tasks` and `/tasks/{id}` endpoints to manage processing tasks.
  */
 export class Tasks {
-    constructor(protected readonly _options: Tasks.Options) {}
+    constructor(protected readonly _options: Tasks.Options = {}) {}
 
     /**
-     * Retrieves a list of tasks for the project, optionally filtered by status or kind.
-     *
      * @param {Ittybit.TasksListRequest} request
      * @param {Tasks.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -59,18 +57,10 @@ export class Tasks {
         request: Ittybit.TasksListRequest = {},
         requestOptions?: Tasks.RequestOptions,
     ): Promise<core.WithRawResponse<Ittybit.TaskListResponse>> {
-        const { limit, status, kind } = request;
+        const { limit } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (limit != null) {
             _queryParams["limit"] = limit.toString();
-        }
-
-        if (status != null) {
-            _queryParams["status"] = status;
-        }
-
-        if (kind != null) {
-            _queryParams["kind"] = kind;
         }
 
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -85,12 +75,12 @@ export class Tasks {
                 Authorization: await this._getAuthorizationHeader(),
                 ACCEPT_VERSION:
                     (await core.Supplier.get(this._options.version)) != null
-                        ? await core.Supplier.get(this._options.version)
+                        ? (await core.Supplier.get(this._options.version)).toString()
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.8",
-                "User-Agent": "@ittybit/sdk/0.7.8",
+                "X-Fern-SDK-Version": "0.8.0",
+                "User-Agent": "@ittybit/sdk/0.8.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -132,41 +122,29 @@ export class Tasks {
     }
 
     /**
-     * Creates a new processing task (e.g., ingest, video transcode, speech analysis) or a workflow task.
+     * Creates a new task item. See [Tasks](/docs/tasks) for detailed coverage of all available props and values.
      *
-     * @param {Ittybit.TasksCreateRequest} request
+     * @param {unknown} request
      * @param {Tasks.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @example
      *     await client.tasks.create({
-     *         kind: "ingest",
-     *         url: "https://example.com/some_video.mov",
-     *         input: {
-     *             "options": {
-     *                 "filename": "custom_name.mov"
-     *             }
-     *         }
-     *     })
-     *
-     * @example
-     *     await client.tasks.create({
-     *         kind: "ingest",
-     *         url: "https://ittyb.it/sample.mp4",
-     *         filename: "bunny-1280x720.mp4",
-     *         folder: "examples/cartoons",
-     *         width: 1280,
-     *         height: 720
+     *         "file_id": "file_abcdefgh1234",
+     *         "kind": "image",
+     *         "width": 320,
+     *         "format": "png",
+     *         "ref": "thumbnail"
      *     })
      */
     public create(
-        request: Ittybit.TasksCreateRequest,
+        request?: unknown,
         requestOptions?: Tasks.RequestOptions,
     ): core.HttpResponsePromise<Ittybit.TaskResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: Ittybit.TasksCreateRequest,
+        request?: unknown,
         requestOptions?: Tasks.RequestOptions,
     ): Promise<core.WithRawResponse<Ittybit.TaskResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -181,12 +159,12 @@ export class Tasks {
                 Authorization: await this._getAuthorizationHeader(),
                 ACCEPT_VERSION:
                     (await core.Supplier.get(this._options.version)) != null
-                        ? await core.Supplier.get(this._options.version)
+                        ? (await core.Supplier.get(this._options.version)).toString()
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.8",
-                "User-Agent": "@ittybit/sdk/0.7.8",
+                "X-Fern-SDK-Version": "0.8.0",
+                "User-Agent": "@ittybit/sdk/0.8.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -228,79 +206,7 @@ export class Tasks {
     }
 
     /**
-     * Retrieves available task kinds and their configuration options.
-     *
-     * @param {Tasks.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.tasks.getTaskConfig()
-     */
-    public getTaskConfig(requestOptions?: Tasks.RequestOptions): core.HttpResponsePromise<Record<string, unknown>> {
-        return core.HttpResponsePromise.fromPromise(this.__getTaskConfig(requestOptions));
-    }
-
-    private async __getTaskConfig(
-        requestOptions?: Tasks.RequestOptions,
-    ): Promise<core.WithRawResponse<Record<string, unknown>>> {
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: urlJoin(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.IttybitEnvironment.Default,
-                "tasks-config",
-            ),
-            method: "GET",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                ACCEPT_VERSION:
-                    (await core.Supplier.get(this._options.version)) != null
-                        ? await core.Supplier.get(this._options.version)
-                        : undefined,
-                "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.8",
-                "User-Agent": "@ittybit/sdk/0.7.8",
-                "X-Fern-Runtime": core.RUNTIME.type,
-                "X-Fern-Runtime-Version": core.RUNTIME.version,
-                ...requestOptions?.headers,
-            },
-            contentType: "application/json",
-            requestType: "json",
-            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
-            maxRetries: requestOptions?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-        });
-        if (_response.ok) {
-            return { data: _response.body as Record<string, unknown>, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.IttybitError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.IttybitError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.IttybitTimeoutError("Timeout exceeded when calling GET /tasks-config.");
-            case "unknown":
-                throw new errors.IttybitError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
-    }
-
-    /**
-     * Retrieves the details of a specific task by its ID.
+     * Retrieves the task object for a task with the given ID.
      *
      * @param {string} id
      * @param {Tasks.RequestOptions} requestOptions - Request-specific configuration.
@@ -328,12 +234,12 @@ export class Tasks {
                 Authorization: await this._getAuthorizationHeader(),
                 ACCEPT_VERSION:
                     (await core.Supplier.get(this._options.version)) != null
-                        ? await core.Supplier.get(this._options.version)
+                        ? (await core.Supplier.get(this._options.version)).toString()
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.7.8",
-                "User-Agent": "@ittybit/sdk/0.7.8",
+                "X-Fern-SDK-Version": "0.8.0",
+                "User-Agent": "@ittybit/sdk/0.8.0",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -373,7 +279,84 @@ export class Tasks {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string> {
-        return `Bearer ${await core.Supplier.get(this._options.token)}`;
+    /**
+     * Retrieves available task kinds and their configuration options.
+     *
+     * @param {Tasks.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.tasks.getTaskConfig()
+     */
+    public getTaskConfig(requestOptions?: Tasks.RequestOptions): core.HttpResponsePromise<Record<string, unknown>> {
+        return core.HttpResponsePromise.fromPromise(this.__getTaskConfig(requestOptions));
+    }
+
+    private async __getTaskConfig(
+        requestOptions?: Tasks.RequestOptions,
+    ): Promise<core.WithRawResponse<Record<string, unknown>>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.IttybitEnvironment.Default,
+                "tasks-config",
+            ),
+            method: "GET",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                ACCEPT_VERSION:
+                    (await core.Supplier.get(this._options.version)) != null
+                        ? (await core.Supplier.get(this._options.version)).toString()
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@ittybit/sdk",
+                "X-Fern-SDK-Version": "0.8.0",
+                "User-Agent": "@ittybit/sdk/0.8.0",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Record<string, unknown>, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.IttybitError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.IttybitError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.IttybitTimeoutError("Timeout exceeded when calling GET /tasks-config.");
+            case "unknown":
+                throw new errors.IttybitError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    protected async _getAuthorizationHeader(): Promise<string | undefined> {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
+
+        return undefined;
     }
 }

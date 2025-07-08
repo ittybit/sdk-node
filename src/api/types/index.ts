@@ -8,6 +8,7 @@ export * from "./AutomationTrigger";
 export * from "./AutomationStatus";
 export * from "./Automation";
 export * from "./WorkflowTaskStepKind";
+export * from "./WorkflowTaskStepNextItem";
 export * from "./WorkflowTaskStep";
 export * from "./FileObject";
 export * from "./FileKind";

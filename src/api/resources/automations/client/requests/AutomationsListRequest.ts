@@ -6,6 +6,6 @@
  * @example
  *     {}
  */
-export interface TasksListRequest {
+export interface AutomationsListRequest {
     limit?: number;
 }

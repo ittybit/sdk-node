@@ -15,9 +15,9 @@ export declare namespace IttybitClient {
         environment?: core.Supplier<environments.IttybitEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token: core.Supplier<core.BearerToken>;
+        token?: core.Supplier<core.BearerToken | undefined>;
         /** Override the ACCEPT_VERSION header */
-        version?: core.Supplier<string | undefined>;
+        version?: core.Supplier<number | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -29,7 +29,7 @@ export declare namespace IttybitClient {
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
         /** Override the ACCEPT_VERSION header */
-        version?: string | undefined;
+        version?: number | undefined;
         /** Additional headers to include in the request. */
         headers?: Record<string, string>;
     }
@@ -42,7 +42,7 @@ export class IttybitClient {
     protected _tasks: Tasks | undefined;
     protected _signatures: Signatures | undefined;
 
-    constructor(protected readonly _options: IttybitClient.Options) {}
+    constructor(protected readonly _options: IttybitClient.Options = {}) {}
 
     public get automations(): Automations {
         return (this._automations ??= new Automations(this._options));

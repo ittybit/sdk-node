@@ -34,7 +34,7 @@ following namespace:
 ```typescript
 import { Ittybit } from "@ittybit/sdk";
 
-const request: Ittybit.AutomationsUpdateRequest = {
+const request: Ittybit.AutomationsListRequest = {
     ...
 };
 ```
