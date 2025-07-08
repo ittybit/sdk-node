@@ -9,7 +9,7 @@ export interface Automation {
     name?: string;
     description?: string;
     trigger: Ittybit.AutomationTrigger;
-    workflow: Ittybit.WorkflowTaskStep[];
+    workflow: Ittybit.AutomationWorkflowItem[];
     status: Ittybit.AutomationStatus;
     created: string;
     updated: string;

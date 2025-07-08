@@ -42,8 +42,8 @@ await client.automations.create({
             kind: "conditions",
             next: [
                 {
-                    kind: "subtitle",
-                    ref: "subtitle",
+                    kind: "subtitles",
+                    ref: "subtitles",
                 },
             ],
         },

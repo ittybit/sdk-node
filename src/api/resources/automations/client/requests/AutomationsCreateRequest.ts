@@ -21,8 +21,8 @@ import * as Ittybit from "../../../../index";
  *             }, {
  *                 kind: "conditions",
  *                 next: [{
- *                         kind: "subtitle",
- *                         ref: "subtitle"
+ *                         kind: "subtitles",
+ *                         ref: "subtitles"
  *                     }]
  *             }],
  *         status: "active"
