@@ -13,7 +13,7 @@ export declare namespace Media {
         environment?: core.Supplier<environments.IttybitEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        token: core.Supplier<core.BearerToken>;
         /** Override the ACCEPT_VERSION header */
         version?: core.Supplier<number | undefined>;
         fetcher?: core.FetchFunction;
@@ -37,7 +37,7 @@ export declare namespace Media {
  * You can use the `/media` and `/media/{id}` endpoints to manage media items.
  */
 export class Media {
-    constructor(protected readonly _options: Media.Options = {}) {}
+    constructor(protected readonly _options: Media.Options) {}
 
     /**
      * Retrieves a paginated list of all media for the current project
@@ -81,8 +81,8 @@ export class Media {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.8.0",
-                "User-Agent": "@ittybit/sdk/0.8.0",
+                "X-Fern-SDK-Version": "0.8.1",
+                "User-Agent": "@ittybit/sdk/0.8.1",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -165,8 +165,8 @@ export class Media {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.8.0",
-                "User-Agent": "@ittybit/sdk/0.8.0",
+                "X-Fern-SDK-Version": "0.8.1",
+                "User-Agent": "@ittybit/sdk/0.8.1",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -240,8 +240,8 @@ export class Media {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.8.0",
-                "User-Agent": "@ittybit/sdk/0.8.0",
+                "X-Fern-SDK-Version": "0.8.1",
+                "User-Agent": "@ittybit/sdk/0.8.1",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -317,8 +317,8 @@ export class Media {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.8.0",
-                "User-Agent": "@ittybit/sdk/0.8.0",
+                "X-Fern-SDK-Version": "0.8.1",
+                "User-Agent": "@ittybit/sdk/0.8.1",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -403,8 +403,8 @@ export class Media {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.8.0",
-                "User-Agent": "@ittybit/sdk/0.8.0",
+                "X-Fern-SDK-Version": "0.8.1",
+                "User-Agent": "@ittybit/sdk/0.8.1",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -445,12 +445,7 @@ export class Media {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string | undefined> {
-        const bearer = await core.Supplier.get(this._options.token);
-        if (bearer != null) {
-            return `Bearer ${bearer}`;
-        }
-
-        return undefined;
+    protected async _getAuthorizationHeader(): Promise<string> {
+        return `Bearer ${await core.Supplier.get(this._options.token)}`;
     }
 }

@@ -25,10 +25,10 @@ import * as Ittybit from "../../../../index";
  *         status: "active"
  *     }
  */
-export interface UpdateAutomationRequest {
+export interface AutomationsUpdateRequest {
     name?: string;
     description?: string;
-    trigger?: Ittybit.UpdateAutomationRequestTrigger;
+    trigger?: Ittybit.AutomationsUpdateRequestTrigger;
     workflow?: Ittybit.WorkflowTaskStep[];
-    status?: Ittybit.UpdateAutomationRequestStatus;
+    status?: Ittybit.AutomationsUpdateRequestStatus;
 }

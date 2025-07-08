@@ -183,54 +183,6 @@ await client.automations.get("id");
 </dl>
 </details>
 
-<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">update</a>(id) -> void</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.automations.update("id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `string`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Automations.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
 <details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">delete</a>(id) -> Ittybit.ConfirmationResponse</code></summary>
 <dl>
 <dd>
@@ -294,7 +246,7 @@ await client.automations.delete("id");
 </dl>
 </details>
 
-<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">updateAutomation</a>(id, { ...params }) -> Ittybit.AutomationResponse</code></summary>
+<details><summary><code>client.automations.<a href="/src/api/resources/automations/client/Client.ts">update</a>(id, { ...params }) -> Ittybit.AutomationResponse</code></summary>
 <dl>
 <dd>
 
@@ -322,7 +274,7 @@ Updates an automation's `name`, `description`, `trigger`, `workflow`, or `status
 <dd>
 
 ```typescript
-await client.automations.updateAutomation("auto_abcdefgh1234", {
+await client.automations.update("id", {
     name: "My Updated Automation",
     workflow: [
         {
@@ -370,7 +322,7 @@ await client.automations.updateAutomation("auto_abcdefgh1234", {
 <dl>
 <dd>
 
-**request:** `Ittybit.UpdateAutomationRequest`
+**request:** `Ittybit.AutomationsUpdateRequest`
 
 </dd>
 </dl>
