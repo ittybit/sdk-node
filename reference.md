@@ -109,7 +109,7 @@ await client.automations.create({
             ref: "thumbnail",
         },
         {
-            kind: "conditions",
+            kind: "video",
             next: [
                 {
                     kind: "subtitles",
@@ -322,7 +322,7 @@ await client.automations.update("id", {
             ref: "big_thumbnail",
         },
         {
-            kind: "conditions",
+            kind: "video",
             next: [
                 {
                     kind: "subtitle",

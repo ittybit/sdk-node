@@ -14,7 +14,6 @@ export type WorkflowTaskStepKind =
     | "description"
     | "outline"
     | "prompt"
-    | "conditions"
     | "http";
 export const WorkflowTaskStepKind = {
     Video: "video",
@@ -28,6 +27,5 @@ export const WorkflowTaskStepKind = {
     Description: "description",
     Outline: "outline",
     Prompt: "prompt",
-    Conditions: "conditions",
     Http: "http",
 } as const;

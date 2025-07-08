@@ -16,7 +16,7 @@ import * as Ittybit from "../../../../index";
  *                 kind: "image",
  *                 ref: "big_thumbnail"
  *             }, {
- *                 kind: "conditions",
+ *                 kind: "video",
  *                 next: [{
  *                         kind: "subtitle",
  *                         ref: "subtitle"

@@ -39,7 +39,7 @@ await client.automations.create({
             ref: "thumbnail",
         },
         {
-            kind: "conditions",
+            kind: "video",
             next: [
                 {
                     kind: "subtitles",

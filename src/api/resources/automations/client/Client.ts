@@ -81,8 +81,8 @@ export class Automations {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.8.3",
-                "User-Agent": "@ittybit/sdk/0.8.3",
+                "X-Fern-SDK-Version": "0.8.6",
+                "User-Agent": "@ittybit/sdk/0.8.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -143,7 +143,7 @@ export class Automations {
      *                 kind: "image",
      *                 ref: "thumbnail"
      *             }, {
-     *                 kind: "conditions",
+     *                 kind: "video",
      *                 next: [{
      *                         kind: "subtitles",
      *                         ref: "subtitles"
@@ -179,8 +179,8 @@ export class Automations {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.8.3",
-                "User-Agent": "@ittybit/sdk/0.8.3",
+                "X-Fern-SDK-Version": "0.8.6",
+                "User-Agent": "@ittybit/sdk/0.8.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -257,8 +257,8 @@ export class Automations {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.8.3",
-                "User-Agent": "@ittybit/sdk/0.8.3",
+                "X-Fern-SDK-Version": "0.8.6",
+                "User-Agent": "@ittybit/sdk/0.8.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -334,8 +334,8 @@ export class Automations {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.8.3",
-                "User-Agent": "@ittybit/sdk/0.8.3",
+                "X-Fern-SDK-Version": "0.8.6",
+                "User-Agent": "@ittybit/sdk/0.8.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -393,7 +393,7 @@ export class Automations {
      *                 kind: "image",
      *                 ref: "big_thumbnail"
      *             }, {
-     *                 kind: "conditions",
+     *                 kind: "video",
      *                 next: [{
      *                         kind: "subtitle",
      *                         ref: "subtitle"
@@ -431,8 +431,8 @@ export class Automations {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@ittybit/sdk",
-                "X-Fern-SDK-Version": "0.8.3",
-                "User-Agent": "@ittybit/sdk/0.8.3",
+                "X-Fern-SDK-Version": "0.8.6",
+                "User-Agent": "@ittybit/sdk/0.8.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
